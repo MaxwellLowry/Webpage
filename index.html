@@ -8,1070 +8,789 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     /* ═══════════════════════════════════════════════════════════
-       CSS CUSTOM PROPERTIES & RESET
+       CUSTOM PROPERTIES & RESET
        ═══════════════════════════════════════════════════════════ */
     :root {
-      --bg-primary: #06080d;
-      --bg-secondary: #0c1018;
+      --bg: #06080d;
       --bg-card: rgba(14, 20, 30, 0.7);
       --bg-glass: rgba(255, 255, 255, 0.03);
-      --border-glass: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.06);
       --border-glow: rgba(0, 180, 255, 0.15);
-      --text-primary: #e8edf5;
-      --text-secondary: #8892a4;
+      --text: #e8edf5;
+      --text-dim: #8892a4;
       --text-muted: #4a5568;
-      --accent-blue: #00b4ff;
-      --accent-cyan: #00e5c7;
-      --accent-amber: #ff8c42;
-      --accent-purple: #8b5cf6;
-      --gradient-hero: linear-gradient(135deg, #00b4ff 0%, #8b5cf6 50%, #ff6b9d 100%);
-      --gradient-card: linear-gradient(135deg, rgba(0,180,255,0.08) 0%, rgba(139,92,246,0.08) 100%);
-      --shadow-glow: 0 0 40px rgba(0, 180, 255, 0.08);
-      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
-      --radius-xl: 28px;
-      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      --transition-spring: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --accent: #00b4ff;
+      --accent2: #8b5cf6;
+      --grad: linear-gradient(135deg, #00b4ff 0%, #8b5cf6 50%, #ff6b9d 100%);
+      --r: 16px;
     }
-
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.7;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    ::selection { background: rgba(0, 180, 255, 0.3); color: #fff; }
-    a { color: var(--accent-blue); text-decoration: none; transition: color var(--transition-fast); }
-    a:hover { color: var(--accent-cyan); }
-
-    /* ═══════════════════════════════════════════════════════════
-       SCROLLBAR
-       ═══════════════════════════════════════════════════════════ */
+    ::selection { background: rgba(0,180,255,0.3); color: #fff; }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #00e5c7; }
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: rgba(0,180,255,0.3); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(0,180,255,0.5); }
 
     /* ═══════════════════════════════════════════════════════════
-       NAVIGATION
+       NAV
        ═══════════════════════════════════════════════════════════ */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      padding: 0 2.5rem;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-      background: rgba(6, 8, 13, 0.6);
-      backdrop-filter: blur(20px) saturate(1.5);
-      border-bottom: 1px solid var(--border-glass);
-      transition: all var(--transition-smooth);
-    }
-    nav.scrolled {
-      background: rgba(6, 8, 13, 0.92);
-      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      height: 56px; padding: 0 2.5rem;
+      background: rgba(6,8,13,0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
     }
     nav .logo {
-      font-size: 1.15rem; font-weight: 700;
-      background: var(--gradient-hero);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
+      font-weight: 700; font-size: 1.05rem;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     nav ul { list-style: none; display: flex; gap: 0.25rem; }
     nav ul li a {
-      color: var(--text-secondary);
-      font-size: 0.85rem; font-weight: 500;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-sm);
-      transition: all var(--transition-fast);
-      position: relative;
+      color: var(--text-dim); font-size: 0.82rem; font-weight: 500;
+      padding: 0.45rem 0.9rem; border-radius: 8px; transition: all 0.2s;
     }
     nav ul li a:hover, nav ul li a.active {
-      color: var(--text-primary);
-      background: rgba(255,255,255,0.05);
+      color: var(--text); background: rgba(255,255,255,0.05);
     }
-    nav ul li a::after {
-      content: ''; position: absolute; bottom: 4px; left: 50%; width: 0; height: 2px;
-      background: var(--accent-blue); border-radius: 1px;
-      transition: all var(--transition-fast); transform: translateX(-50%);
-    }
-    nav ul li a:hover::after, nav ul li a.active::after { width: 20px; }
-
-    /* Mobile nav toggle */
-    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
-    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text-primary); margin: 4px 0; border-radius: 1px; transition: all var(--transition-fast); }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.4rem; }
+    .nav-toggle span { display: block; width: 20px; height: 2px; background: var(--text); margin: 4px 0; border-radius: 1px; }
 
     /* ═══════════════════════════════════════════════════════════
-       HERO SECTION
+       LAYOUT
+       ═══════════════════════════════════════════════════════════ */
+    .container { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; }
+    section { padding: 4rem 0; }
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════════════════
+       HERO
        ═══════════════════════════════════════════════════════════ */
     .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 4rem;
-      overflow: hidden;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 6rem 4rem 4rem; position: relative; overflow: hidden;
     }
-    #particleCanvas {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 0;
+    #particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+    .hero-video-bg {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden;
     }
-    .hero-bg-orb {
-      position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.15;
-      pointer-events: none; z-index: 0;
+    .hero-video-bg video {
+      width: 100%; height: 100%; object-fit: cover;
     }
-    .hero-bg-orb.orb1 {
-      width: 600px; height: 600px; top: -10%; left: -10%;
-      background: var(--accent-blue);
-      animation: floatOrb 20s ease-in-out infinite;
+    .hero-video-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(6,8,13,0.55) 0%, rgba(6,8,13,0.35) 35%, rgba(6,8,13,0.75) 100%);
     }
-    .hero-bg-orb.orb2 {
-      width: 500px; height: 500px; bottom: -10%; right: -10%;
-      background: var(--accent-purple);
-      animation: floatOrb 25s ease-in-out infinite reverse;
+    .hero > * { position: relative; z-index: 1; }
+    .hero-content {
+      display: flex; align-items: center; justify-content: center;
+      gap: 3rem; flex-wrap: wrap; max-width: 1200px;
     }
-    .hero-bg-orb.orb3 {
-      width: 400px; height: 400px; top: 30%; right: 20%;
-      background: var(--accent-amber);
-      animation: floatOrb 18s ease-in-out infinite 5s;
+    .hero-text { text-align: left; }
+    .hero-photo {
+      flex-shrink: 0; width: 180px; height: 180px;
+      border-radius: 50%; overflow: hidden;
+      border: 3px solid rgba(0,180,255,0.3);
+      box-shadow: 0 0 40px rgba(0,180,255,0.15);
     }
-    @keyframes floatOrb {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -40px) scale(1.05); }
-      66% { transform: translate(-20px, 20px) scale(0.95); }
+    .hero-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
     }
-
-    .hero-content { position: relative; z-index: 1; max-width: 800px; }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: var(--bg-glass);
-      border: 1px solid var(--border-glass);
-      border-radius: 100px;
-      font-size: 0.8rem; color: var(--text-secondary);
-      margin-bottom: 2rem;
-      backdrop-filter: blur(10px);
-      animation: fadeInDown 0.8s ease-out;
-    }
-    .hero-badge .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent-cyan);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.3); }
-    }
-
     .hero h1 {
-      font-size: clamp(2.8rem, 7vw, 5rem);
-      font-weight: 900;
-      letter-spacing: -2px;
-      line-height: 1.05;
-      margin-bottom: 1.25rem;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
+      font-size: clamp(2.5rem, 6vw, 4.2rem); font-weight: 900;
+      letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1rem;
     }
-    .hero h1 .gradient-text {
-      background: var(--gradient-hero);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      background-size: 200% 200%;
-      animation: gradientShift 6s ease-in-out infinite;
+    .hero h1 .grad {
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    .hero .subtitle {
-      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
-      color: var(--text-secondary);
-      font-weight: 400;
-      margin-bottom: 1rem;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-
-    .hero .contact-line {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      animation: fadeInUp 0.8s ease-out 0.5s both;
-    }
-
-    .hero-links {
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-      animation: fadeInUp 0.8s ease-out 0.6s both;
-    }
+    .hero .sub { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--text-dim); margin-bottom: 0.5rem; }
+    .hero .contact { font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 2rem; }
+    .hero-links { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-start; }
     .hero-links a {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.7rem 1.5rem;
-      border-radius: 100px;
-      font-size: 0.9rem; font-weight: 500;
-      transition: all var(--transition-smooth);
-      position: relative; overflow: hidden;
+      padding: 0.6rem 1.4rem; border-radius: 100px; font-size: 0.85rem; font-weight: 500;
+      transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.4rem;
     }
-    .hero-links a.primary {
-      background: var(--accent-blue);
-      color: #000;
-      border: 1px solid var(--accent-blue);
-    }
-    .hero-links a.primary:hover {
-      background: transparent;
-      color: var(--accent-blue);
-      box-shadow: 0 0 30px rgba(0,180,255,0.2);
-    }
+    .hero-links a.primary { background: var(--accent); color: #000; border: 1px solid var(--accent); }
+    .hero-links a.primary:hover { background: transparent; color: var(--accent); }
     .hero-links a.secondary {
-      background: var(--bg-glass);
-      color: var(--text-primary);
-      border: 1px solid var(--border-glass);
-      backdrop-filter: blur(10px);
+      background: var(--bg-glass); color: var(--text); border: 1px solid var(--border);
     }
-    .hero-links a.secondary:hover {
-      border-color: var(--accent-blue);
-      background: rgba(0,180,255,0.08);
+    .hero-links a.secondary:hover { border-color: var(--accent); background: rgba(0,180,255,0.08); }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.35rem 1rem; background: var(--bg-glass); border: 1px solid var(--border);
+      border-radius: 100px; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 2rem;
     }
-
-    .scroll-indicator {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      color: var(--text-muted); font-size: 0.75rem;
-      animation: fadeInUp 0.8s ease-out 1s both;
-    }
-    .scroll-indicator .mouse {
-      width: 24px; height: 38px;
-      border: 2px solid var(--text-muted);
-      border-radius: 12px;
-      position: relative;
-    }
-    .scroll-indicator .mouse::after {
-      content: ''; position: absolute; top: 6px; left: 50%;
-      width: 3px; height: 8px; margin-left: -1.5px;
-      background: var(--accent-blue);
-      border-radius: 2px;
-      animation: scrollWheel 2s ease-in-out infinite;
-    }
-    @keyframes scrollWheel {
-      0% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(12px); }
-    }
+    .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #00e5c7; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 
     /* ═══════════════════════════════════════════════════════════
-       SECTIONS
+       HEADERS
        ═══════════════════════════════════════════════════════════ */
-    section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 6rem 2rem;
-    }
-    section h2 {
-      font-size: 2rem; font-weight: 800;
-      margin-bottom: 0.75rem;
-      letter-spacing: -1px;
-    }
-    section h2 .section-accent {
-      color: var(--accent-blue);
-    }
-    .section-line {
-      width: 60px; height: 3px;
-      background: var(--gradient-hero);
-      border-radius: 2px;
-      margin-bottom: 3rem;
-    }
-    .section-desc {
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-      margin-bottom: 3rem;
-      max-width: 600px;
-    }
-
-    /* Reveal animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+    h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 0.5rem; }
+    h2 .accent { color: var(--accent); }
+    .line { width: 50px; height: 3px; background: var(--grad); border-radius: 2px; margin-bottom: 2.5rem; }
+    .desc { color: var(--text-dim); font-size: 1rem; max-width: 900px; margin-bottom: 2.5rem; }
 
     /* ═══════════════════════════════════════════════════════════
-       ABOUT SECTION
+       CARDS
        ═══════════════════════════════════════════════════════════ */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.5rem; backdrop-filter: blur(10px);
+      transition: all 0.3s; position: relative; overflow: hidden;
     }
-    .about-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-      transition: all var(--transition-smooth);
-      position: relative;
-      overflow: hidden;
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--grad); opacity: 0; transition: opacity 0.3s;
     }
-    .about-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--gradient-hero);
-      opacity: 0;
-      transition: opacity var(--transition-smooth);
+    .card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
+    .card:hover::before { opacity: 1; }
+    .card h3 { font-size: 0.92rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+    .card p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
+    .card .hl { color: var(--text); font-weight: 600; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+    .stat {
+      text-align: center; padding: 1.25rem; background: var(--bg-glass);
+      border: 1px solid var(--border); border-radius: 12px;
     }
-    .about-card:hover {
-      border-color: var(--border-glow);
-      box-shadow: var(--shadow-glow);
-      transform: translateY(-4px);
+    .stat .num {
+      font-size: 1.8rem; font-weight: 800;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .about-card:hover::before { opacity: 1; }
-
-    .about-card h3 {
-      font-size: 1rem; font-weight: 600;
-      color: var(--accent-blue);
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .about-card h3 .icon { font-size: 1.2rem; }
-    .about-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
-    .about-card .highlight { color: var(--text-primary); font-weight: 600; }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-    .stat-card {
-      text-align: center;
-      padding: 1.5rem;
-      background: var(--bg-glass);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-md);
-      backdrop-filter: blur(10px);
-      transition: all var(--transition-smooth);
-    }
-    .stat-card:hover {
-      border-color: var(--border-glow);
-      transform: translateY(-2px);
-    }
-    .stat-card .stat-number {
-      font-size: 2rem; font-weight: 800;
-      background: var(--gradient-hero);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-    .stat-card .stat-label {
-      font-size: 0.8rem; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 1px;
-    }
+    .stat .lbl { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
     /* ═══════════════════════════════════════════════════════════
        EXPERIENCE TIMELINE
        ═══════════════════════════════════════════════════════════ */
-    .timeline {
-      position: relative;
-      padding-left: 3rem;
-    }
+    .timeline { position: relative; padding-left: 2rem; }
     .timeline::before {
-      content: '';
-      position: absolute; left: 7px; top: 0; bottom: 0; width: 2px;
-      background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple), transparent);
+      content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
     }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 2.5rem;
+    .tl-item { position: relative; margin-bottom: 2rem; }
+    .tl-dot {
+      position: absolute; left: -2.5rem; top: 0.35rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--bg); border: 2px solid var(--accent); z-index: 1;
     }
-    .timeline-item:last-child { margin-bottom: 0; }
-    .timeline-dot {
-      position: absolute; left: -3rem; top: 0.5rem;
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      background: var(--bg-primary);
-      border: 2px solid var(--accent-blue);
-      z-index: 1;
-      transition: all var(--transition-smooth);
+    .tl-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.25rem;
     }
-    .timeline-item:hover .timeline-dot {
-      background: var(--accent-blue);
-      box-shadow: 0 0 16px rgba(0,180,255,0.4);
+    .tl-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.35rem; }
+    .tl-header h3 { font-size: 1.05rem; font-weight: 700; }
+    .tl-date {
+      font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;
+      background: rgba(255,255,255,0.03); padding: 0.2rem 0.65rem; border-radius: 100px; border: 1px solid var(--border);
     }
-    .timeline-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      backdrop-filter: blur(10px);
-      transition: all var(--transition-smooth);
-    }
-    .timeline-card:hover {
-      border-color: var(--border-glow);
-      box-shadow: var(--shadow-glow);
-      transform: translateX(4px);
-    }
-    .timeline-header {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      flex-wrap: wrap; gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .timeline-header h3 {
-      font-size: 1.1rem; font-weight: 700; color: var(--text-primary);
-    }
-    .timeline-date {
-      font-size: 0.8rem; color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      background: rgba(255,255,255,0.03);
-      padding: 0.25rem 0.75rem;
-      border-radius: 100px;
-      border: 1px solid var(--border-glass);
-    }
-    .timeline-company {
-      font-size: 0.95rem; color: var(--accent-blue);
-      margin-bottom: 1rem;
-    }
-    .timeline-card ul { padding-left: 1.2rem; }
-    .timeline-card ul li {
-      margin-bottom: 0.4rem; font-size: 0.9rem; color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .timeline-card ul li::marker { color: var(--accent-blue); }
+    .tl-company { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.75rem; }
+    .tl-card ul { padding-left: 1.1rem; }
+    .tl-card ul li { margin-bottom: 0.3rem; font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+    .tl-card ul li::marker { color: var(--accent); }
 
     /* ═══════════════════════════════════════════════════════════
        PROJECTS
        ═══════════════════════════════════════════════════════════ */
-    .projects-grid {
-      display: grid; gap: 1.5rem;
+    .project-section {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 2rem; margin-bottom: 1.5rem;
+      backdrop-filter: blur(10px); transition: all 0.3s;
     }
-    .project-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-      transition: all var(--transition-smooth);
-      position: relative;
-      overflow: hidden;
+    .project-section:hover { border-color: var(--border-glow); }
+    .project-section h3 {
+      font-size: 1.3rem; font-weight: 700; margin-bottom: 0.25rem;
+      display: flex; align-items: center; gap: 0.6rem;
     }
-    .project-card::after {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--gradient-card);
-      opacity: 0;
-      transition: opacity var(--transition-smooth);
-      pointer-events: none;
+    .proj-link {
+      font-size: 0.8rem; color: var(--accent); font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.3rem;
     }
-    .project-card:hover {
-      border-color: var(--border-glow);
-      box-shadow: var(--shadow-glow);
-      transform: translateY(-4px);
+    .proj-link:hover { gap: 0.5rem; }
+    .proj-desc { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 1.5rem; }
+    .proj-desc.muted { color: var(--text-muted); font-style: italic; margin-top: 1rem; }
+    .tl-card ul, .project-section ul { padding-left: 1.1rem; margin-bottom: 1.5rem; }
+    .tl-card ul li, .project-section ul li { font-size: 0.88rem; color: var(--text-dim); margin-bottom: 0.3rem; }
+    .tl-card ul li::marker, .project-section ul li::marker { color: var(--accent); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .tag {
+      font-size: 0.7rem; padding: 0.25rem 0.6rem;
+      background: rgba(0,180,255,0.08); border: 1px solid rgba(0,180,255,0.15);
+      border-radius: 100px; color: var(--accent); font-weight: 500;
     }
-    .project-card:hover::after { opacity: 1; }
-    .project-card > * { position: relative; z-index: 1; }
 
-    .project-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 1rem;
+    /* ── Media grid — clean, no cropping ── */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
     }
-    .project-card h3 {
-      font-size: 1.2rem; font-weight: 700; color: var(--text-primary);
+    .media-grid.two-col {
+      grid-template-columns: repeat(2, 1fr);
     }
-    .project-icon {
-      width: 40px; height: 40px;
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem;
-      background: rgba(0,180,255,0.1);
-      border: 1px solid rgba(0,180,255,0.2);
+    .media-grid.three-col {
+      grid-template-columns: repeat(3, 1fr);
     }
-    .project-link {
-      font-size: 0.82rem; color: var(--accent-blue);
-      margin-bottom: 1rem;
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-family: 'JetBrains Mono', monospace;
-      transition: all var(--transition-fast);
+    .media-grid.full-width {
+      grid-template-columns: 1fr;
+      max-width: 900px;
     }
-    .project-link:hover { gap: 0.6rem; }
-    .project-card ul { padding-left: 1.2rem; }
-    .project-card ul li {
-      margin-bottom: 0.35rem; font-size: 0.9rem; color: var(--text-secondary);
+    .media-grid.full-width .media-item img,
+    .media-grid.full-width .media-item video {
+      max-height: 500px;
+      object-fit: contain !important;
     }
-    .project-tags {
-      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem;
+
+    /* ── Media item — clean, no hover, no click ── */
+    .media-item {
+      background: var(--bg-glass); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color 0.2s;
     }
-    .project-tag {
-      font-size: 0.72rem; padding: 0.25rem 0.65rem;
-      background: rgba(0,180,255,0.08);
-      border: 1px solid rgba(0,180,255,0.15);
-      border-radius: 100px;
-      color: var(--accent-blue);
-      font-weight: 500;
+    .media-item:hover {
+      border-color: rgba(0,180,255,0.2);
+    }
+    .media-item img,
+    .media-item video {
+      width: 100%; display: block; object-fit: contain;
+      background: var(--bg);
+    }
+
+    /* ── Caption ── */
+    .media-item .img-caption {
+      padding: 0.55rem 0.75rem;
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
+      line-height: 1.4;
     }
 
     /* ═══════════════════════════════════════════════════════════
        SKILLS
        ═══════════════════════════════════════════════════════════ */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; }
     .skill-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      backdrop-filter: blur(10px);
-      transition: all var(--transition-smooth);
-      position: relative;
-      overflow: hidden;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.5rem; transition: all 0.3s;
     }
-    .skill-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      border-radius: 3px 3px 0 0;
-      transition: opacity var(--transition-smooth);
-    }
-    .skill-card:nth-child(1)::before { background: var(--accent-blue); }
-    .skill-card:nth-child(2)::before { background: var(--accent-purple); }
-    .skill-card:nth-child(3)::before { background: var(--accent-amber); }
-    .skill-card:nth-child(4)::before { background: var(--accent-cyan); }
-    .skill-card:hover {
-      border-color: var(--border-glow);
-      box-shadow: var(--shadow-glow);
-      transform: translateY(-4px);
-    }
-    .skill-card h4 {
-      font-size: 0.95rem; font-weight: 600;
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .skill-card .skill-icon {
-      width: 32px; height: 32px;
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
-    .skill-card:nth-child(1) .skill-icon { background: rgba(0,180,255,0.12); }
-    .skill-card:nth-child(2) .skill-icon { background: rgba(139,92,246,0.12); }
-    .skill-card:nth-child(3) .skill-icon { background: rgba(255,140,66,0.12); }
-    .skill-card:nth-child(4) .skill-icon { background: rgba(0,229,199,0.12); }
-    .skill-tags {
-      display: flex; flex-wrap: wrap; gap: 0.4rem;
-    }
+    .skill-card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
+    .skill-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
     .skill-tag {
-      font-size: 0.78rem; padding: 0.3rem 0.7rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border-glass);
-      border-radius: 100px;
-      color: var(--text-secondary);
-      transition: all var(--transition-fast);
-    }
-    .skill-card:hover .skill-tag {
-      border-color: rgba(255,255,255,0.1);
-      color: var(--text-primary);
+      font-size: 0.75rem; padding: 0.25rem 0.6rem;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 100px; color: var(--text-dim);
     }
 
     /* ═══════════════════════════════════════════════════════════
        PUBLICATIONS
        ═══════════════════════════════════════════════════════════ */
     .pub-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-      transition: all var(--transition-smooth);
-      position: relative;
-      overflow: hidden;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 1.5rem; position: relative; overflow: hidden;
     }
     .pub-card::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-      background: var(--gradient-hero);
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--grad);
     }
-    .pub-card:hover {
-      border-color: var(--border-glow);
-      box-shadow: var(--shadow-glow);
-      transform: translateX(4px);
-    }
-    .pub-card .pub-title {
-      font-size: 1.1rem; font-weight: 600; color: var(--text-primary);
-      margin-bottom: 0.5rem;
-    }
-    .pub-card .pub-meta {
-      font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7;
-    }
-    .pub-card .pub-meta a {
-      color: var(--accent-blue);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       MEDIA / GALLERY
-       ═══════════════════════════════════════════════════════════ */
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 4rem;
-    }
-    .video-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-      transition: all var(--transition-smooth);
-    }
-    .video-card:hover {
-      border-color: var(--border-glow);
-      box-shadow: var(--shadow-glow);
-      transform: translateY(-4px);
-    }
-    .video-card video {
-      width: 100%; display: block;
-      background: #000;
-      max-height: 220px;
-      object-fit: cover;
-    }
-    .video-card .video-label {
-      padding: 0.85rem 1.25rem;
-      font-size: 0.85rem; color: var(--text-secondary);
-      font-weight: 500;
-    }
-
-    .gallery-section { margin-bottom: 3.5rem; }
-    .gallery-section h3 {
-      font-size: 1.3rem; font-weight: 700;
-      margin-bottom: 0.5rem;
-      display: flex; align-items: center; gap: 0.75rem;
-    }
-    .gallery-section h3 .gallery-icon {
-      width: 32px; height: 32px;
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
-    }
-    .gallery-section .gallery-desc {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      margin-bottom: 1.5rem;
-    }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 0.85rem;
-    }
-    .gallery-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      cursor: pointer;
-      transition: all var(--transition-smooth);
-      backdrop-filter: blur(10px);
-    }
-    .gallery-item:hover {
-      border-color: var(--border-glow);
-      box-shadow: var(--shadow-glow);
-      transform: scale(1.03);
-      z-index: 2;
-    }
-    .gallery-item img {
-      width: 100%; display: block;
-      object-fit: cover;
-      max-height: 150px;
-      transition: transform var(--transition-smooth);
-    }
-    .gallery-item:hover img { transform: scale(1.05); }
-    .gallery-label {
-      padding: 0.5rem 0.7rem;
-      font-size: 0.72rem; color: var(--text-muted);
-      line-height: 1.4;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       LIGHTBOX
-       ═══════════════════════════════════════════════════════════ */
-    .lightbox {
-      position: fixed; inset: 0; z-index: 10000;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(20px);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    .lightbox.active { opacity: 1; visibility: visible; }
-    .lightbox img {
-      max-width: 90vw; max-height: 85vh;
-      object-fit: contain;
-      border-radius: var(--radius-md);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      transform: scale(0.9);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .lightbox.active img { transform: scale(1); }
-    .lightbox-close {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff; font-size: 1.3rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all var(--transition-fast);
-    }
-    .lightbox-close:hover {
-      background: rgba(255,255,255,0.2);
-      transform: rotate(90deg);
-    }
-    .lightbox-caption {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      text-align: center;
-    }
+    .pub-card .title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .pub-card .meta { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
+    .pub-card .meta a { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
 
     /* ═══════════════════════════════════════════════════════════
        FOOTER
        ═══════════════════════════════════════════════════════════ */
     footer {
-      text-align: center;
-      padding: 3rem 2rem;
-      border-top: 1px solid var(--border-glass);
-      font-size: 0.85rem; color: var(--text-muted);
+      text-align: center; padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted);
     }
-    footer .footer-links {
-      display: flex; justify-content: center; gap: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    footer .footer-links a {
-      color: var(--text-secondary);
-      transition: color var(--transition-fast);
-    }
-    footer .footer-links a:hover { color: var(--accent-blue); }
+    footer .links { display: flex; justify-content: center; gap: 1.25rem; margin-bottom: 0.75rem; }
+    footer .links a { color: var(--text-dim); }
+    footer .links a:hover { color: var(--accent); }
 
-    /* ═══════════════════════════════════════════════════════════
-       ANIMATIONS
-       ═══════════════════════════════════════════════════════════ */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* ── About grid (desktop) ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
     }
 
     /* ═══════════════════════════════════════════════════════════
        RESPONSIVE
        ═══════════════════════════════════════════════════════════ */
     @media (max-width: 768px) {
-      nav { padding: 0 1.25rem; }
+      nav { padding: 0 1rem; }
       nav ul { display: none; }
       .nav-toggle { display: block; }
       nav ul.open {
         display: flex; flex-direction: column;
-        position: absolute; top: 64px; left: 0; right: 0;
-        background: rgba(6,8,13,0.97);
-        backdrop-filter: blur(20px);
-        padding: 1rem;
-        border-bottom: 1px solid var(--border-glass);
+        position: absolute; top: 56px; left: 0; right: 0;
+        background: rgba(6,8,13,0.97); padding: 0.75rem; border-bottom: 1px solid var(--border);
       }
-      section { padding: 4rem 1.25rem; }
+      section { padding: 3.5rem 0; }
+      .container { padding: 0 1.25rem; }
       .about-grid { grid-template-columns: 1fr; }
-      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-      .stat-card .stat-number { font-size: 1.5rem; }
-      .hero h1 { letter-spacing: -1px; }
-      .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .project-section { padding: 1.5rem; }
+      .media-grid { grid-template-columns: 1fr; }
+      .media-grid.two-col { grid-template-columns: 1fr; }
+      .media-grid.three-col { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
-      .stats-row { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
       .hero-links { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       NAVIGATION
-       ═══════════════════════════════════════════════════════════ -->
-  <nav id="mainNav">
-    <div class="logo">ML</div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul id="navMenu">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#media">Media</a></li>
-    </ul>
-  </nav>
+<!-- ═══════════════════════════════════════════════════════════
+     NAV
+     ═══════════════════════════════════════════════════════════ -->
+<nav>
+  <div class="logo">ML</div>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <ul id="navMenu">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#publications">Publications</a></li>
+  </ul>
+</nav>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       HERO
-       ═══════════════════════════════════════════════════════════ -->
-  <div class="hero">
-    <canvas id="particleCanvas"></canvas>
-    <div class="hero-bg-orb orb1"></div>
-    <div class="hero-bg-orb orb2"></div>
-    <div class="hero-bg-orb orb3"></div>
-
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="dot"></span>
-        Open to opportunities
-      </div>
-      <h1>
-        Maxwell<br><span class="gradient-text">Lowry</span>
-      </h1>
-      <p class="subtitle">Engineering Physics · Rocket Propulsion · Mechanical Design</p>
-      <p class="contact-line">Lowry.283@osu.edu · (513) 319-4274 · Goshen, OH</p>
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-video-bg">
+    <video autoplay muted loop playsinline preload="auto" id="heroVideo">
+      <source src="resources for webpage/Media/Oxygen Rich Staged Combustion/Transient De Laval Nozzel Sim.mp4" type="video/mp4">
+    </video>
+  </div>
+  <canvas id="particles"></canvas>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="badge"><span class="dot"></span> Open to opportunities</div>
+      <h1>Maxwell<br><span class="grad">Lowry</span></h1>
+      <p class="sub">Engineering Physics · Computational Mechanics · Systems Engineering</p>
+      <p class="contact">Lowry.283@osu.edu · (513) 319-4274 · Goshen, OH · US Citizen</p>
       <div class="hero-links">
-        <a href="mailto:Lowry.283@osu.edu" class="primary">✉ Get in Touch</a>
-        <a href="https://linkedin.com/in/maxwell-lowry-78824342" target="_blank" rel="noopener" class="secondary">💼 LinkedIn</a>
-        <a href="https://github.com/MaxwellLowry" target="_blank" rel="noopener" class="secondary">⌨ GitHub</a>
+        <a href="mailto:Lowry.283@osu.edu" class="primary">Email</a>
+        <a href="https://linkedin.com/in/maxwell-lowry-78824342" target="_blank" rel="noopener" class="secondary">LinkedIn</a>
+        <a href="https://github.com/MaxwellLowry" target="_blank" rel="noopener" class="secondary">GitHub</a>
       </div>
     </div>
-
-    <div class="scroll-indicator">
-      <div class="mouse"></div>
-      <span>Scroll</span>
+    <div class="hero-photo">
+      <img src="resources for webpage/Media/PicturesOfMe/ProfesionalImage.jpg" alt="Maxwell Lowry">
     </div>
   </div>
+</div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       ABOUT
-       ═══════════════════════════════════════════════════════════ -->
-  <section id="about">
+<!-- ═══════════════════════════════════════════════════════════
+     ABOUT
+     ═══════════════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
     <div class="reveal">
-      <h2>About <span class="section-accent">Me</span></h2>
-      <div class="section-line"></div>
+      <h2>About <span class="accent">Me</span></h2>
+      <div class="line"></div>
     </div>
-    <p class="section-desc reveal reveal-delay-1">
-      I'm a senior Engineering Physics student at The Ohio State University with a focus on rocket propulsion,
-      computational mechanics, and hands-on systems engineering. I'm passionate about turning
-      complex physics problems into working hardware.
+    <p class="desc reveal">
+      I'm a junior Engineering Physics student at The Ohio State University (expected graduation May 2028),
+      US citizen, focused on computational mechanics, systems engineering, and hands-on hardware development.
+      I'm passionate about turning complex physics problems into working solutions.
     </p>
     <div class="about-grid">
-      <div class="about-card reveal reveal-delay-2">
-        <h3><span class="icon">🎓</span> Education</h3>
-        <p>
-          <span class="highlight">B.S. Engineering Physics</span><br>
-          The Ohio State University<br>
-          Aug 2024 – May 2028<br>
-          GPA: <span class="highlight">3.83</span> · Dean's List (multiple semesters)
-        </p>
+      <div class="card reveal">
+        <h3>Education</h3>
+        <p><span class="hl">B.S. Engineering Physics</span><br>The Ohio State University<br>Aug 2024 – May 2028 (Expected)<br>GPA: <span class="hl">3.83</span> · Dean's List<br>Citizenship: <span class="hl">US</span></p>
       </div>
-      <div class="about-card reveal reveal-delay-3">
-        <h3><span class="icon">🚀</span> Focus Areas</h3>
-        <p>
-          Rocket Propulsion Systems · CFD & Thermal Analysis
-          · Finite Element Analysis · CAD & Additive Manufacturing
-          · Embedded Systems & Control
-        </p>
+      <div class="card reveal">
+        <h3>Focus Areas</h3>
+        <p>Engineering Systems · CFD & Computational Mechanics · CAD & Additive Manufacturing · Embedded Systems & Controls · Thermal Analysis</p>
       </div>
-      <div class="about-card reveal reveal-delay-2">
-        <h3><span class="icon">⛰️</span> Beyond Engineering</h3>
-        <p>
-          Rock Climbing, Backpacking, Guitar, Weightlifting
-        </p>
-      </div>
-      <div class="about-card reveal reveal-delay-3">
-        <h3><span class="icon">🎯</span> Mission</h3>
-        <p>
-          Designing the next generation of high-performance rocket engines
-          that push the boundaries of what's possible in space exploration.
-        </p>
+      <div class="card reveal">
+        <h3>Beyond Engineering</h3>
+        <p>Rock Climbing, Backpacking, Guitar, Weightlifting</p>
       </div>
     </div>
-    <div class="stats-row">
-      <div class="stat-card reveal reveal-delay-1">
-        <div class="stat-number">3.83</div>
-        <div class="stat-label">GPA</div>
-      </div>
-      <div class="stat-card reveal reveal-delay-2">
-        <div class="stat-number">2+</div>
-        <div class="stat-label">Years R&D</div>
-      </div>
-      <div class="stat-card reveal reveal-delay-3">
-        <div class="stat-number">1</div>
-        <div class="stat-label">AIAA Publication</div>
-      </div>
+    <div class="stats">
+      <div class="stat reveal"><div class="num">3.83</div><div class="lbl">GPA</div></div>
+      <div class="stat reveal"><div class="num">2+</div><div class="lbl">Years R&D</div></div>
+      <div class="stat reveal"><div class="num">1</div><div class="lbl">AIAA Pub</div></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       EXPERIENCE
-       ═══════════════════════════════════════════════════════════ -->
-  <section id="experience">
+<!-- ═══════════════════════════════════════════════════════════
+     EXPERIENCE
+     ═══════════════════════════════════════════════════════════ -->
+<section id="experience">
+  <div class="container">
     <div class="reveal">
       <h2>Experience</h2>
-      <div class="section-line"></div>
+      <div class="line"></div>
     </div>
     <div class="timeline">
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-header">
-            <h3>Combustion Devices Research Engineer</h3>
-            <span class="timeline-date">Oct 2024 – Present</span>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <h3>Liquid Rocket Systems — Combustion Devices Lead</h3>
+            <span class="tl-date">Oct 2024 – Present</span>
           </div>
-          <p class="timeline-company">Liquid Rocket Systems — Undergraduate Rocket Propulsion Team · Columbus, OH</p>
+          <p class="tl-company">Undergraduate Rocket Propulsion Team · Columbus, OH</p>
           <ul>
-            <li>Troubleshoot and maintain liquid rocket engine test stand plumbing assemblies to ensure safe, repeatable hot-fire testing</li>
-            <li>Collaborate with cross-functional peers to develop design, manufacturing, and testing roadmaps for engine development</li>
-            <li>Contribute to development of the team's first undergraduate-designed staged combustion rocket engine</li>
+            <li>Led design of the team's first undergraduate oxygen-rich preburner for its staged combustion engine</li>
+            <li>Leading a small team as full task and technical lead to design and build the club's first undergraduate methalox gas generator</li>
+            <li>Determined through experimental testing that a mis-sized torch igniter would reliably ignite the team's first fully electric pump-fed rocket engine</li>
+            <li>Troubleshoot and maintain liquid rocket engine test stand plumbing assemblies</li>
             <li>Co-author and present research at AIAA regional and national conferences</li>
           </ul>
         </div>
       </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-header">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
             <h3>Undergraduate Research Assistant</h3>
-            <span class="timeline-date">Date TBD</span>
+            <span class="tl-date">May 2026 – Aug 2026</span>
           </div>
-          <p class="timeline-company">ManufacturingX Laboratory — The Ohio State University · Columbus, OH</p>
+          <p class="tl-company">ManufacturingX Laboratory — The Ohio State University · Columbus, OH</p>
           <ul>
-            <li>Design and run finite element simulations of ultrasonic-assisted resistance spot welding processes</li>
+            <li>Design and ran finite element simulations of ultrasonic-assisted resistance spot welding processes</li>
             <li>Validate simulation results against experimental testing to refine process models</li>
           </ul>
         </div>
       </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-header">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
             <h3>HVAC Technician Apprentice</h3>
-            <span class="timeline-date">May 2022 – Aug 2025</span>
+            <span class="tl-date">May 2022 – Aug 2025</span>
           </div>
-          <p class="timeline-company">Forney Heating and Cooling · Cincinnati, OH</p>
+          <p class="tl-company">Forney Heating and Cooling · Cincinnati, OH</p>
           <ul>
-            <li>Installed heating and air systems across commercial and residential facilities</li>
-            <li>Performed maintenance and troubleshooting on existing HVAC systems</li>
-            <li>Read and interpreted blueprints and wiring diagrams to guide installation and repair work</li>
+            <li>Installed, maintained, and repaired heating and cooling systems across residential and commercial sites</li>
+            <li>Read blueprints and wiring diagrams to guide installation and repair work</li>
           </ul>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       PROJECTS
-       ═══════════════════════════════════════════════════════════ -->
-  <section id="projects">
+<!-- ═══════════════════════════════════════════════════════════
+     PROJECTS
+     ═══════════════════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="container">
     <div class="reveal">
-      <h2>Featured <span class="section-accent">Projects</span></h2>
-      <div class="section-line"></div>
+      <h2>Featured <span class="accent">Projects</span></h2>
+      <div class="line"></div>
     </div>
-    <div class="projects-grid">
-      <div class="project-card reveal">
-        <div class="project-top">
-          <h3>Oxygen-Rich Preburner</h3>
-          <div class="project-icon">🔥</div>
-        </div>
-        <a class="project-link" href="https://github.com/MaxwellLowry/Staged-Combustion-Project-" target="_blank" rel="noopener">
-          github.com/MaxwellLowry/Staged-Combustion-Project →
-        </a>
-        <ul>
-          <li>Produced the first undergraduate-complete preburner geometry, optimized for additive manufacturing</li>
-          <li>Designed, manufactured, tested, and iterated coaxial swirl injectors, validated by simulation</li>
-          <li>Refined the downstream dilution injector until simulations showed uniform mixing</li>
-          <li>Integrated the combustion device into a complete engine assembly</li>
-        </ul>
-        <div class="project-tags">
-          <span class="project-tag">CFD</span>
-          <span class="project-tag">Combustion</span>
-          <span class="project-tag">Inconel 718</span>
-          <span class="project-tag">DFAM</span>
-          <span class="project-tag">Ansys</span>
-        </div>
-      </div>
-      <div class="project-card reveal reveal-delay-1">
-        <div class="project-top">
-          <h3>Thrust Vector Control Gimbal</h3>
-          <div class="project-icon">🎯</div>
-        </div>
-        <a class="project-link" href="https://github.com/MaxwellLowry/TVCGimbal" target="_blank" rel="noopener">
-          github.com/MaxwellLowry/TVCGimbal →
-        </a>
-        <ul>
-          <li>Designed a 2-axis engine gimbal assembly and manufactured a test stand to support it</li>
-          <li>Writing an autonomous stabilization control program and companion Simulink simulation</li>
-        </ul>
-        <div class="project-tags">
-          <span class="project-tag">CAD</span>
-          <span class="project-tag">Control Systems</span>
-          <span class="project-tag">Simulink</span>
-          <span class="project-tag">9DOF IMU</span>
-        </div>
-      </div>
-      <div class="project-card reveal reveal-delay-2">
-        <div class="project-top">
-          <h3>PipeGen</h3>
-          <div class="project-icon">🔧</div>
-        </div>
-        <a class="project-link" href="https://github.com/MaxwellLowry/PipeGen" target="_blank" rel="noopener">
-          github.com/MaxwellLowry/PipeGen →
-        </a>
-        <ul>
-          <li>Applied algorithmic design to a geometry kernel to produce parametric pipe designs</li>
-          <li>Learned C# while exploring computational design workflows</li>
-        </ul>
-        <div class="project-tags">
-          <span class="project-tag">C#</span>
-          <span class="project-tag">PicoGK</span>
-          <span class="project-tag">Computational Design</span>
-          <span class="project-tag">Geometry Kernel</span>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       SKILLS
-       ═══════════════════════════════════════════════════════════ -->
-  <section id="skills">
+    <!-- ═════════════════════════════════════════════════════════
+         PROJECT 1: OXYGEN-RICH PREBURNER
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>Oxygen-Rich Preburner</h3>
+      <a class="proj-link" href="https://github.com/MaxwellLowry/Staged-Combustion-Project-" target="_blank" rel="noopener">
+        github.com/MaxwellLowry/Staged-Combustion-Project- →
+      </a>
+      <p class="proj-desc">
+        Produced the first undergraduate-complete preburner geometry for a staged combustion rocket engine.
+        Designed, manufactured, simulated, tested, and iterated deep recess internal mixing coaxial swirl injectors,
+        then brute-force simulated downstream dilution injection until results showed uniform mixing.
+        Built for the OSU Liquid Rocket Systems undergraduate propulsion team.
+      </p>
+      <div class="tags">
+        <span class="tag">CFD</span>
+        <span class="tag">Combustion</span>
+        <span class="tag">Inconel 718</span>
+        <span class="tag">DFAM</span>
+        <span class="tag">Ansys Fluent</span>
+        <span class="tag">Additive Manufacturing</span>
+      </div>
+
+      <div class="media-grid full-width" style="margin-top:1.5rem;">
+        <div class="media-item" data-caption="Full preburner CFD animation — flow path through coaxial injectors">
+          <video autoplay muted loop playsinline preload="metadata" poster="resources for webpage/Media/animation-1-thumb.jpg">
+            <source src="resources for webpage/Media/animation-1.mpeg" type="video/mpeg">
+          </video>
+          <div class="img-caption">Preburner CFD — Full Flow Animation</div>
+        </div>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Complete engine layout with all major components labeled">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Additivly Manufacturable Preburner with RD-170 Style Internal Mixing Coaxial Swirl Injectors.png" alt="Complete Engine Design Layout" loading="lazy">
+          <div class="img-caption">Complete Engine Layout — RD-170 Style Coaxial Injectors</div>
+        </div>
+        <div class="media-item" data-caption="Annular oxygen-rich preburner mixing simulation showing fuel-oxygen interaction">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Anular Oxygen Rich Preburner Mixing Simulation.png" alt="Annular Preburner Mixing Simulation" loading="lazy">
+          <div class="img-caption">Annular Preburner — Mixing Simulation</div>
+        </div>
+      </div>
+
+      <div class="media-grid" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Thermal simulation showing heat distribution across the preburner">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Oxygen Rich Preburner Thermal Simulation.png" alt="Thermal Simulation" loading="lazy">
+          <div class="img-caption">Thermal Simulation — Heat Distribution</div>
+        </div>
+        <div class="media-item" data-caption="Preburner element cross-section showing internal flow paths">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Element.png" alt="Preburner Element" loading="lazy">
+          <div class="img-caption">Preburner Element</div>
+        </div>
+        <div class="media-item" data-caption="Full preburner assembly showing welded components">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Assembly.png" alt="Preburner Assembly" loading="lazy">
+          <div class="img-caption">Preburner Assembly</div>
+        </div>
+      </div>
+
+      <div class="media-grid full-width" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Complete flow path from preburner through turbine to main injector">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Into Turbine Into Main Injector.png" alt="Full System Flow Path" loading="lazy">
+          <div class="img-caption">Full System — Preburner to Turbine to Main Injector</div>
+        </div>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Turbine simulation showing blade aerodynamics">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Turbine Sim.png" alt="Turbine Simulation" loading="lazy">
+          <div class="img-caption">Turbine — CFD Simulation</div>
+        </div>
+        <div class="media-item" data-caption="Turbine stator vane design from Turbo software">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/TurbineCFTurbo.png" alt="Turbine CFD Turbo" loading="lazy">
+          <div class="img-caption">Turbine Stator — CFD Turbo Design</div>
+        </div>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Preburner assembly with welded Inconel and Haynes components">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner assembly.jpg" alt="Preburner Assembly" loading="lazy">
+          <div class="img-caption">Welded Preburner Assembly — Inconel / Haynes</div>
+        </div>
+        <div class="media-item" data-caption="External mixing coaxial swirl injector simulation">
+          <img src="resources for webpage/Media/Coaxial Swirl Injector Campaign/Externa Mixng Coax Swirl Injector Sim.png" alt="Coaxial Swirl Injector Simulation" loading="lazy">
+          <div class="img-caption">Coaxial Swirl Injector — CFD Simulation</div>
+        </div>
+      </div>
+
+      <div class="media-grid" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Shaft assembly with precision bearings">
+          <img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Shaft Assembly.png" alt="Shaft Assembly" loading="lazy">
+          <div class="img-caption">Shaft Assembly</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════
+         PROJECT 2: THRUST VECTOR CONTROL GIMBAL
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>Thrust Vector Control Gimbal</h3>
+      <a class="proj-link" href="https://github.com/MaxwellLowry/TVCGimbal" target="_blank" rel="noopener">
+        github.com/MaxwellLowry/TVCGimbal →
+      </a>
+      <p class="proj-desc">
+        Designed a 2-axis engine gimbal assembly and manufactured a test stand to support it.
+        Writing an autonomous stabilization control program and companion Simulink simulation
+        using a 9DOF IMU for real-time attitude data.
+      </p>
+      <div class="tags">
+        <span class="tag">CAD</span>
+        <span class="tag">SolidWorks</span>
+        <span class="tag">Control Systems</span>
+        <span class="tag">Simulink</span>
+        <span class="tag">9DOF IMU</span>
+        <span class="tag">MATLAB</span>
+      </div>
+
+      <div class="media-grid full-width" style="margin-top:1.5rem;">
+        <div class="media-item" data-caption="Full 2-axis gimbal CAD assembly showing all mechanical components">
+          <img src="resources for webpage/Media/2 Axis thrust vectoring/tvcgimbal proto cad.png" alt="Gimbal CAD Assembly" loading="lazy">
+          <div class="img-caption">2-Axis Gimbal — Full CAD Assembly</div>
+        </div>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Physical prototype assembly with 9DOF IMU module mounted">
+          <img src="resources for webpage/Media/2 Axis thrust vectoring/tvcgimbal proto assembly.jpeg" alt="Prototype Assembly" loading="lazy">
+          <div class="img-caption">Physical Prototype — IMU Mounted</div>
+        </div>
+        <div class="media-item" data-caption="Early Simulink simulation model for attitude control">
+          <img src="resources for webpage/Media/2 Axis thrust vectoring/tvcgimbal early simulink.png" alt="Early Simulink Model" loading="lazy">
+          <div class="img-caption">Early Simulink — Attitude Control Model</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════
+         PROJECT 3: PIPEGEN
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>PipeGen</h3>
+      <a class="proj-link" href="https://github.com/MaxwellLowry/PipeGen" target="_blank" rel="noopener">
+        github.com/MaxwellLowry/PipeGen →
+      </a>
+      <p class="proj-desc">
+        Applied algorithmic design to a geometry kernel to produce parametric pipe designs.
+        Explored computational design workflows using C# and PicoGK.
+      </p>
+      <div class="tags">
+        <span class="tag">C#</span>
+        <span class="tag">PicoGK</span>
+        <span class="tag">Computational Design</span>
+        <span class="tag">Geometry Kernel</span>
+      </div>
+
+      <div class="media-grid" style="margin-top:1.5rem;">
+        <div class="media-item" data-caption="Parametric bent pipe — control points defining the curvature">
+          <img src="resources for webpage/Media/PipeGen/pipegen_bent_pipe_1.png" alt="Bent Pipe Design" loading="lazy">
+          <div class="img-caption">Parametric Bent Pipe — Control Points</div>
+        </div>
+        <div class="media-item" data-caption="Straight pipe generated from computational design points">
+          <img src="resources for webpage/Media/PipeGen/pipegen_straight_pipe.png" alt="Straight Pipe Design" loading="lazy">
+          <div class="img-caption">Straight Pipe — Computational Design</div>
+        </div>
+        <div class="media-item" data-caption="Alternate parametric pipe design with different curvature profile">
+          <img src="resources for webpage/Media/PipeGen/pipegen_bent_pipe_2.png" alt="Alternate Pipe Design" loading="lazy">
+          <div class="img-caption">Alternate Parametric Pipe</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════
+         PROJECT 4: METHALOX GAS GENERATOR
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>Methalox Gas Generator</h3>
+      <p class="proj-desc">
+        Leading a small team developing the first university-level methalox gas generator.
+        Personally designed external uniform mixing coaxial swirl injectors and injector plate manifold.
+      </p>
+      <div class="tags">
+        <span class="tag">Methalox</span>
+        <span class="tag">Gas Generator</span>
+        <span class="tag">Injector Design</span>
+        <span class="tag">Team Lead</span>
+      </div>
+      <p class="proj-desc muted">No media available yet — this project is in active development.</p>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════
+         PROJECT 5: ULTRASONIC WELDING RESEARCH
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>Ultrasonic-Assisted Resistance Spot Welding</h3>
+      <a class="proj-link" href="https://github.com/MaxwellLowry" target="_blank" rel="noopener">
+        github.com/MaxwellLowry →
+      </a>
+      <p class="proj-desc">
+        Undergraduate research at ManufacturingX Laboratory (2026). Designed and ran finite element
+        simulations of ultrasonic-assisted resistance spot welding processes, and validated simulation
+        results against physical experimental testing to refine process models.
+      </p>
+      <div class="tags">
+        <span class="tag">FEA</span>
+        <span class="tag">Abaqus</span>
+        <span class="tag">Welding</span>
+        <span class="tag">Research</span>
+        <span class="tag">ManufacturingX</span>
+      </div>
+
+      <div class="media-grid full-width" style="margin-top:1.5rem;">
+        <div class="media-item" data-caption="Side-by-side comparison of experimental and computational weld nugget formation">
+          <img src="resources for webpage/Media/Ultrasonic assisted resistance spot welding/Experimental VS Computational Weld Nugget .png" alt="Experimental vs Computational Nugget" loading="lazy">
+          <div class="img-caption">Experimental vs. Computational — Weld Nugget Comparison</div>
+        </div>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Simulation ideology showing the FEA model approach and boundary conditions">
+          <img src="resources for webpage/Media/Ultrasonic assisted resistance spot welding/Simulation Ideology.png" alt="Simulation Ideology" loading="lazy">
+          <div class="img-caption">Simulation Approach — FEA Model Design</div>
+        </div>
+        <div class="media-item" data-caption="Weld nugget simulation showing heat distribution during welding">
+          <img src="resources for webpage/Media/Ultrasonic assisted resistance spot welding/Weld Nugget Simulation.png" alt="Weld Nugget Simulation" loading="lazy">
+          <div class="img-caption">Weld Nugget — Thermal Simulation</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════
+         PROJECT 6: SIMULATION PRACTICE
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>Simulation Practice</h3>
+      <p class="proj-desc">
+        Exploratory FEA and casting simulations to develop and refine analytical techniques.
+        Independent practice work building proficiency in manufacturing process modeling.
+      </p>
+      <div class="tags">
+        <span class="tag">FEA</span>
+        <span class="tag">Casting</span>
+        <span class="tag">Forging</span>
+        <span class="tag">Simulation</span>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.5rem;">
+        <div class="media-item" data-caption="Finite element analysis practice — forging process simulation">
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src="resources for webpage/Media/Other/Forge FEA practice.mp4" type="video/mp4">
+          </video>
+          <div class="img-caption">Forging FEA — Process Simulation</div>
+        </div>
+        <div class="media-item" data-caption="Metal casting simulation showing flow and solidification">
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src="resources for webpage/Media/Other/Medalion Casting Sim.mp4" type="video/mp4">
+          </video>
+          <div class="img-caption">Medallion Casting — Flow & Solidification</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SKILLS
+     ═══════════════════════════════════════════════════════════ -->
+<section id="skills">
+  <div class="container">
     <div class="reveal">
-      <h2>Technical <span class="section-accent">Skills</span></h2>
-      <div class="section-line"></div>
+      <h2>Technical <span class="accent">Skills</span></h2>
+      <div class="line"></div>
     </div>
     <div class="skills-grid">
       <div class="skill-card reveal">
-        <h4><span class="skill-icon">💻</span> Programming</h4>
+        <h4>Programming</h4>
         <div class="skill-tags">
           <span class="skill-tag">C#</span>
           <span class="skill-tag">MATLAB</span>
           <span class="skill-tag">Python</span>
-          <span class="skill-tag">Julia</span>
         </div>
       </div>
-      <div class="skill-card reveal reveal-delay-1">
-        <h4><span class="skill-icon">📐</span> CAD & Design</h4>
+      <div class="skill-card reveal">
+        <h4>CAD & Design</h4>
         <div class="skill-tags">
           <span class="skill-tag">SolidWorks</span>
           <span class="skill-tag">Fusion</span>
@@ -1081,8 +800,8 @@
           <span class="skill-tag">DFM</span>
         </div>
       </div>
-      <div class="skill-card reveal reveal-delay-2">
-        <h4><span class="skill-icon">📊</span> Analysis & Simulation</h4>
+      <div class="skill-card reveal">
+        <h4>Analysis & Simulation</h4>
         <div class="skill-tags">
           <span class="skill-tag">Ansys Fluent</span>
           <span class="skill-tag">Ansys Mechanical</span>
@@ -1093,8 +812,8 @@
           <span class="skill-tag">Acoustic</span>
         </div>
       </div>
-      <div class="skill-card reveal reveal-delay-3">
-        <h4><span class="skill-icon">🔨</span> Hands-On & Lab</h4>
+      <div class="skill-card reveal">
+        <h4>Hands-On & Lab</h4>
         <div class="skill-tags">
           <span class="skill-tag">3D Printing</span>
           <span class="skill-tag">CNC</span>
@@ -1102,591 +821,155 @@
           <span class="skill-tag">Soldering</span>
           <span class="skill-tag">Metal Casting</span>
           <span class="skill-tag">Welding</span>
+          <span class="skill-tag">HVAC</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       PUBLICATIONS
-       ═══════════════════════════════════════════════════════════ -->
-  <section id="publications">
+<!-- ═══════════════════════════════════════════════════════════
+     PUBLICATIONS
+     ═══════════════════════════════════════════════════════════ -->
+<section id="publications">
+  <div class="container">
     <div class="reveal">
       <h2>Publications</h2>
-      <div class="section-line"></div>
+      <div class="line"></div>
     </div>
     <div class="pub-card reveal">
-      <p class="pub-title">Design and Numerical Analysis of an Oxygen-Rich Gas Turbine</p>
-      <p class="pub-meta">
+      <p class="title">Design and Numerical Analysis of an Oxygen-Rich Gas Turbine</p>
+      <p class="meta">
         M. Markami, D. Francisco, A. Hoffman, M. Lowry<br>
         AIAA 2026-115081, Team Category · Published online 18 Jun 2026<br>
         <a href="https://doi.org/10.2514/6.2026-115081" target="_blank" rel="noopener">doi.org/10.2514/6.2026-115081 →</a>
       </p>
     </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       MEDIA
-       ═══════════════════════════════════════════════════════════ -->
-  <section id="media">
-    <div class="reveal">
-      <h2>Media <span class="section-accent">Gallery</span></h2>
-      <div class="section-line"></div>
-      <p class="section-desc">Screenshots and recordings from my projects and simulations.</p>
-    </div>
-
-    <!-- Videos -->
-    <div class="video-grid">
-      <div class="video-card reveal">
-        <video autoplay muted loop playsinline preload="metadata" poster="resources for webpage/Media/animation-1-thumb.jpg">
-          <source src="resources for webpage/Media/animation-1.mp4" type="video/mp4">
-        </video>
-        <div class="video-label">Preburner Animation</div>
-      </div>
-      <div class="video-card reveal reveal-delay-1">
-        <video autoplay muted loop playsinline preload="metadata" poster="resources for webpage/Media/ForgeFEApractice-thumb.jpg">
-          <source src="resources for webpage/Media/ForgeFEApractice.mp4" type="video/mp4">
-        </video>
-        <div class="video-label">Forge FEA Simulation</div>
-      </div>
-      <div class="video-card reveal reveal-delay-2">
-        <video autoplay muted loop playsinline preload="metadata" poster="resources for webpage/Media/NuggetFormation-thumb.jpg">
-          <source src="resources for webpage/Media/NuggetFormation.mp4" type="video/mp4">
-        </video>
-        <div class="video-label">Nugget Formation Process</div>
-      </div>
-      <div class="video-card reveal reveal-delay-3">
-        <video autoplay muted loop playsinline preload="metadata" poster="resources for webpage/Media/Temperature-thumb.jpg">
-          <source src="resources for webpage/Media/Temperature.mp4" type="video/mp4">
-        </video>
-        <div class="video-label">Temperature Distribution</div>
-      </div>
-    </div>
-
-    <!-- Staged Combustion -->
-    <div class="gallery-section">
-      <h3 class="reveal">
-        <span class="gallery-icon" style="background:rgba(255,140,66,0.12);">🔥</span>
-        Staged Combustion Engine
-      </h3>
-      <p class="gallery-desc reveal reveal-delay-1">CFD simulations, injector iterations, and testing from the OSU Liquid Rocket Systems project.</p>
-      <div class="gallery-grid">
-        <div class="gallery-item reveal" data-caption="Bell Nozzle CFD Simulation">
-          <img src="https://raw.githubusercontent.com/MaxwellLowry/Staged-Combustion-Project-/main/animation-1-ezgif.com-video-to-gif-converter.gif" alt="Rocket nozzle CFD simulation animation" loading="lazy">
-          <div class="gallery-label">Bell Nozzle CFD Simulation</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Coaxial Swirl Injector — Physical Test">
-          <img src="https://github.com/user-attachments/assets/5b8d29e1-8aea-49e2-a239-98f7f97b9e66" alt="Injector physical testing" loading="lazy">
-          <div class="gallery-label">Coaxial Swirl Injector — Physical Test</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Injector Test — Pressure vs Time">
-          <img src="https://raw.githubusercontent.com/MaxwellLowry/Staged-Combustion-Project-/main/IMG_4352-ezgif.com-video-to-gif-converter.gif" alt="Injector testing GIF" loading="lazy">
-          <div class="gallery-label">Injector Test — Pressure vs Time</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Injector Plate CAD">
-          <img src="https://github.com/user-attachments/assets/056b0a3f-4944-4144-b463-59da47531a48" alt="Injector plate CAD" loading="lazy">
-          <div class="gallery-label">Injector Plate CAD</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Flow Test — Constant Velocity Manifold">
-          <img src="https://github.com/user-attachments/assets/afbae0ab-4bdd-4b67-9145-a80effbf6934" alt="Flow test validation" loading="lazy">
-          <div class="gallery-label">Flow Test — Constant Velocity Manifold</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Redesigned Preburner — Stage 1 OF Ratio">
-          <img src="https://github.com/user-attachments/assets/bcb893ac-3b8e-4a32-9d19-4e09976d7be9" alt="Preburner redesign" loading="lazy">
-          <div class="gallery-label">Redesigned Preburner — Stage 1 OF Ratio</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="First Complete Preburner Draft">
-          <img src="https://github.com/user-attachments/assets/f435e4a9-1088-4ee9-ab9a-1c300d19fdf7" alt="First complete preburner draft" loading="lazy">
-          <div class="gallery-label">First Complete Preburner Draft</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Fuel Injector Volute — CFD">
-          <img src="https://github.com/user-attachments/assets/e43577c8-9ebd-49d8-80fe-84a053fa1315" alt="Fuel injector volute CFD" loading="lazy">
-          <div class="gallery-label">Fuel Injector Volute — CFD</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Fuel Volute — CFD View 2">
-          <img src="https://github.com/user-attachments/assets/1259748d-73df-492b-be36-f3f2b5a525bb" alt="Fuel injector volute CFD result 2" loading="lazy">
-          <div class="gallery-label">Fuel Volute — CFD View 2</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Lox Injector Volute — CFD">
-          <img src="https://github.com/user-attachments/assets/ae7dd699-38f6-4ecc-978d-d745ba7e6d14" alt="Lox injector volute CFD" loading="lazy">
-          <div class="gallery-label">Lox Injector Volute — CFD</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Injector CFD Simulation">
-          <img src="https://github.com/user-attachments/assets/629b68a8-6254-41ea-91e5-0d4da64ff760" alt="Injector CFD simulation" loading="lazy">
-          <div class="gallery-label">Injector CFD Simulation</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Injector Plate — Side View">
-          <img src="https://github.com/user-attachments/assets/b2426d2d-4bed-42db-9c38-540bf291cba4" alt="Injector plate CAD side view" loading="lazy">
-          <div class="gallery-label">Injector Plate — Side View</div>
-        </div>
-        <!-- PPTX images - Preburner Manufacturing -->
-        <div class="gallery-item reveal" data-caption="Preburner Assembly — Welded Inconel/Haynes">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image1.png" alt="Preburner assembly" loading="lazy">
-          <div class="gallery-label">Preburner Assembly — Welded</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Preburner Manufacturing — CNC Inconel/Haynes Stator">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image2.png" alt="CNC stator" loading="lazy">
-          <div class="gallery-label">CNC Stator — Interchangeable Design</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Manufacturing — Steel with Inconel Interior Coating Concept">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image3.png" alt="Steel with inconel coating" loading="lazy">
-          <div class="gallery-label">Steel + Inconel Coat Concept</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Preburner Manufacturing — Bearing Housing Design">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image4.png" alt="Bearing housing" loading="lazy">
-          <div class="gallery-label">Bearing Housing Design</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Manufacturing — Stator CNC Plan">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image5.png" alt="Stator CNC" loading="lazy">
-          <div class="gallery-label">Stator — CNC Machining</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Preburner Manufacturing — Turbine Housing Design">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image6.png" alt="Turbine housing" loading="lazy">
-          <div class="gallery-label">Turbine Housing Design</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Manufacturing — New Shorter Preburner Concept">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image7.png" alt="New shorter preburner" loading="lazy">
-          <div class="gallery-label">New Shorter Preburner</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Preburner Manufacturing — Coaxial Swirl Injector Wall Design">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image8.png" alt="Coaxial swirl injector" loading="lazy">
-          <div class="gallery-label">Coaxial Swirl Injector Wall</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Manufacturing — Manufacturing TO-DO List">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image9.png" alt="Manufacturing TO-DO" loading="lazy">
-          <div class="gallery-label">Manufacturing TO-DO List</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Preburner Manufacturing — Welding Information">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image10.png" alt="Welding info" loading="lazy">
-          <div class="gallery-label">Welding Info — Aron Harshbager</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Manufacturing — Flange and Seal Design">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image11.png" alt="Flange design" loading="lazy">
-          <div class="gallery-label">Flange & Seal Design</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Preburner Manufacturing — DFM and GD&T">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image12.png" alt="DFM GD&T" loading="lazy">
-          <div class="gallery-label">DFM & GD&T</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Manufacturing — Budget Planning">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image13.png" alt="Budget" loading="lazy">
-          <div class="gallery-label">Budget Planning</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Preburner Manufacturing — Rough Testing Feasibility Plan">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image14.png" alt="Feasibility plan" loading="lazy">
-          <div class="gallery-label">Feasibility Plan</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Manufacturing — Plating Info">
-          <img src="resources for webpage/Media/Preburner_Manufacturing_image15.png" alt="Plating info" loading="lazy">
-          <div class="gallery-label">Plating Info — Hale Performance</div>
-        </div>
-        <!-- PPTX images - Parameters Document -->
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Current Engine Design Layout">
-          <img src="resources for webpage/Media/Parameters_Document_image1.jpg" alt="Engine layout" loading="lazy">
-          <div class="gallery-label">Current Engine Layout</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Shaft Overall Dimension">
-          <img src="resources for webpage/Media/Parameters_Document_image2.png" alt="Shaft dimension" loading="lazy">
-          <div class="gallery-label">Shaft Overall Dimension</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Stepped Labyrinth Seal">
-          <img src="resources for webpage/Media/Parameters_Document_image3.jpg" alt="Labyrinth seal" loading="lazy">
-          <div class="gallery-label">Stepped Labyrinth Seal</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Combustion Chamber — Kei/Ashton">
-          <img src="resources for webpage/Media/Parameters_Document_image4.png" alt="Combustion chamber" loading="lazy">
-          <div class="gallery-label">Combustion Chamber</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Bearing — 25BGR19 Series">
-          <img src="resources for webpage/Media/Parameters_Document_image5.png" alt="Bearing" loading="lazy">
-          <div class="gallery-label">Bearing — 25BGR19 Series</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Preburner Flange — M16, 24 bolts, Grade 12.9">
-          <img src="resources for webpage/Media/Parameters_Document_image6.png" alt="Preburner flange" loading="lazy">
-          <div class="gallery-label">Preburner Flange — M16</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Turbine Rotor/Inlet — Rotor Diameter: 116.3mm">
-          <img src="resources for webpage/Media/Parameters_Document_image7.png" alt="Turbine rotor" loading="lazy">
-          <div class="gallery-label">Turbine Rotor — 116.3mm</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="LOX Pump Rotor — 50k RPM, 20.5MPa outlet">
-          <img src="resources for webpage/Media/Parameters_Document_image8.png" alt="LOX pump" loading="lazy">
-          <div class="gallery-label">LOX Pump Rotor — 50k RPM</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Fuel Pump Rotor — 23MPa, 39.79 Nm torque">
-          <img src="resources for webpage/Media/Parameters_Document_image9.png" alt="Fuel pump" loading="lazy">
-          <div class="gallery-label">Fuel Pump Rotor — 23MPa</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Cooling Channel Design">
-          <img src="resources for webpage/Media/Parameters_Document_image10.png" alt="Cooling channel" loading="lazy">
-          <div class="gallery-label">Cooling Channel Design</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Oxygen Rich Ring Burner — Max — Chamber Pressure: 17.51 MPa">
-          <img src="resources for webpage/Media/Parameters_Document_image11.png" alt="Ring burner" loading="lazy">
-          <div class="gallery-label">Oxygen Rich Ring Burner</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Torch Igniter — Ready for Testing">
-          <img src="resources for webpage/Media/Parameters_Document_image12.png" alt="Torch igniter" loading="lazy">
-          <div class="gallery-label">Torch Igniter — Ready for Testing</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Sensor Information — Fluids">
-          <img src="resources for webpage/Media/Parameters_Document_image13.png" alt="Sensors fluids" loading="lazy">
-          <div class="gallery-label">Sensors — Fluids</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Sensor Information — Electronics">
-          <img src="resources for webpage/Media/Parameters_Document_image14.png" alt="Sensors electronics" loading="lazy">
-          <div class="gallery-label">Sensors — Electronics</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Conceptual Assembly/Parts">
-          <img src="resources for webpage/Media/Parameters_Document_image15.png" alt="Assembly parts" loading="lazy">
-          <div class="gallery-label">Conceptual Assembly</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="PT and Thermocouple Specifications">
-          <img src="resources for webpage/Media/Parameters_Document_image16.png" alt="PT specs" loading="lazy">
-          <div class="gallery-label">PT & Thermocouple Specs</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Parts to Test — Preburner, Turbine/Pumps, Igniter">
-          <img src="resources for webpage/Media/Parameters_Document_image17.png" alt="Parts to test" loading="lazy">
-          <div class="gallery-label">Parts to Test Plan</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Startup Sequence — Nitrogen Kickstart">
-          <img src="resources for webpage/Media/Parameters_Document_image18.jpg" alt="Startup sequence" loading="lazy">
-          <div class="gallery-label">Startup Sequence</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Shutdown Sequence">
-          <img src="resources for webpage/Media/Parameters_Document_image19.png" alt="Shutdown" loading="lazy">
-          <div class="gallery-label">Shutdown Sequence</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Torch Igniter — Propane/GOx at 19.14 MPa">
-          <img src="resources for webpage/Media/Parameters_Document_image20.jpg" alt="Igniter details" loading="lazy">
-          <div class="gallery-label">Igniter — 19.14 MPa</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Engine Parameters — Thrust & Massflow">
-          <img src="resources for webpage/Media/Parameters_Document_image21.png" alt="Engine parameters" loading="lazy">
-          <div class="gallery-label">Engine Parameters</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Turbopump Design — Radial Turbine">
-          <img src="resources for webpage/Media/Parameters_Document_image22.png" alt="Turbopump" loading="lazy">
-          <div class="gallery-label">Turbopump Design</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Component Dimensions Overview">
-          <img src="resources for webpage/Media/Parameters_Document_image23.png" alt="Component dimensions" loading="lazy">
-          <div class="gallery-label">Component Dimensions</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TVCGimbal -->
-    <div class="gallery-section">
-      <h3 class="reveal">
-        <span class="gallery-icon" style="background:rgba(139,92,246,0.12);">🎯</span>
-        Thrust Vector Control Gimbal
-      </h3>
-      <p class="gallery-desc reveal reveal-delay-1">2-axis gimbal assembly, 9DOF module integration, and autonomous stabilization.</p>
-      <div class="gallery-grid">
-        <div class="gallery-item reveal" data-caption="Prototype CAD Assembly">
-          <img src="resources for webpage/Media/tvcgimbal_proto_cad.png" alt="Prototype CAD assembly" loading="lazy">
-          <div class="gallery-label">Prototype CAD Assembly</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Proto Assembly + 9DOF Module">
-          <img src="resources for webpage/Media/tvcgimbal_proto_assembly.jpeg" alt="Proto assembly with 9DOF module" loading="lazy">
-          <div class="gallery-label">Proto Assembly + 9DOF Module</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="9DOF Data — Matlab Simulink">
-          <img src="resources for webpage/Media/tvcgimbal_simulink.png" alt="Simulink data output" loading="lazy">
-          <div class="gallery-label">9DOF Data — Matlab Simulink</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PipeGen -->
-    <div class="gallery-section">
-      <h3 class="reveal">
-        <span class="gallery-icon" style="background:rgba(0,229,199,0.12);">🔧</span>
-        PipeGen
-      </h3>
-      <p class="gallery-desc reveal reveal-delay-1">Parametric pipe generation using computational design and PicoGK.</p>
-      <div class="gallery-grid">
-        <div class="gallery-item reveal" data-caption="Parametric Bent Pipe">
-          <img src="https://github.com/user-attachments/assets/acddea78-eceb-42a2-82e7-558fc0354cd0" alt="Bent pipe design" loading="lazy">
-          <div class="gallery-label">Parametric Bent Pipe</div>
-        </div>
-        <div class="gallery-item reveal reveal-delay-1" data-caption="Straight Pipe — Computational Design">
-          <img src="https://github.com/user-attachments/assets/830ce5d6-9b43-47c4-9083-314eb7e89a6e" alt="Straight pipe design" loading="lazy">
-          <div class="gallery-label">Straight Pipe — Computational Design</div>
-        </div>
-        <div class="gallery-item reveal" data-caption="Parametric Pipe — Alternate Design">
-          <img src="https://github.com/user-attachments/assets/9b69f317-814c-4a6f-a0e1-99a0b05adda2" alt="Bent pipe design alternate" loading="lazy">
-          <div class="gallery-label">Parametric Pipe — Alternate Design</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════════════════ -->
-  <footer>
-    <div class="footer-links">
-      <a href="mailto:Lowry.283@osu.edu">Email</a>
-      <a href="https://linkedin.com/in/maxwell-lowry-78824342" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/MaxwellLowry" target="_blank" rel="noopener">GitHub</a>
-    </div>
-    <p>&copy; 2026 Maxwell Lowry · Engineered from scratch</p>
-  </footer>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       LIGHTBOX
-       ═══════════════════════════════════════════════════════════ -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose">✕</button>
-    <img src="" alt="" id="lightboxImg">
-    <div class="lightbox-caption" id="lightboxCaption"></div>
   </div>
+</section>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       JAVASCRIPT
-       ═══════════════════════════════════════════════════════════ -->
-  <script>
-    // ── Particle Canvas ──
-    (function() {
-      const canvas = document.getElementById('particleCanvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      let mouse = { x: null, y: null };
-      const PARTICLE_COUNT = 80;
-      const MAX_DIST = 120;
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="links">
+    <a href="mailto:Lowry.283@osu.edu">Email</a>
+    <a href="https://linkedin.com/in/maxwell-lowry-78824342" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/MaxwellLowry" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <p>© 2026 Maxwell Lowry</p>
+</footer>
 
-      function resize() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-      }
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+// ── Particles ──
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let particles = [], mouse = { x: null, y: null };
+  const COUNT = 60, MAX_DIST = 120;
 
-      function createParticles() {
-        particles = [];
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.random() - 0.5) * 0.4,
-            r: Math.random() * 1.5 + 0.5,
-            opacity: Math.random() * 0.5 + 0.2
-          });
-        }
-      }
+  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  function create() {
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 1.5 + 0.5, o: Math.random() * 0.5 + 0.2
+      });
+    }
+  }
 
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw connections
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < MAX_DIST) {
-              const opacity = (1 - dist / MAX_DIST) * 0.15;
-              ctx.strokeStyle = `rgba(0, 180, 255, ${opacity})`;
-              ctx.lineWidth = 0.5;
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.stroke();
-            }
-          }
-        }
-
-        // Draw particles
-        particles.forEach(p => {
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < MAX_DIST) {
+          ctx.strokeStyle = 'rgba(0,180,255,' + ((1-d/MAX_DIST)*0.12) + ')';
+          ctx.lineWidth = 0.5;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0, 180, 255, ${p.opacity})`;
-          ctx.fill();
-
-          // Mouse interaction
-          if (mouse.x !== null) {
-            const dx = p.x - mouse.x;
-            const dy = p.y - mouse.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 150) {
-              const force = (150 - dist) / 150;
-              p.vx += dx / dist * force * 0.02;
-              p.vy += dy / dist * force * 0.02;
-            }
-          }
-
-          // Update
-          p.x += p.vx;
-          p.y += p.vy;
-          p.vx *= 0.99;
-          p.vy *= 0.99;
-
-          // Wrap
-          if (p.x < 0) p.x = canvas.width;
-          if (p.x > canvas.width) p.x = 0;
-          if (p.y < 0) p.y = canvas.height;
-          if (p.y > canvas.height) p.y = 0;
-        });
-
-        requestAnimationFrame(draw);
-      }
-
-      canvas.addEventListener('mousemove', e => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-      });
-      canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-
-      window.addEventListener('resize', () => { resize(); createParticles(); });
-      resize();
-      createParticles();
-      draw();
-    })();
-
-    // ── Scroll Reveal ──
-    (function() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    })();
-
-    // ── Nav Scroll Effect ──
-    (function() {
-      const nav = document.getElementById('mainNav');
-      window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 50);
-      });
-    })();
-
-    // ── Active Nav Link ──
-    (function() {
-      const sections = document.querySelectorAll('section[id]');
-      const navLinks = document.querySelectorAll('nav ul li a');
-
-      window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop - 100;
-          if (window.scrollY >= sectionTop) {
-            current = section.getAttribute('id');
-          }
-        });
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-          }
-        });
-      });
-    })();
-
-    // ── Mobile Nav Toggle ──
-    (function() {
-      const toggle = document.getElementById('navToggle');
-      const menu = document.getElementById('navMenu');
-      toggle.addEventListener('click', () => {
-        menu.classList.toggle('open');
-      });
-      // Close on link click
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => menu.classList.remove('open'));
-      });
-    })();
-
-    // ── Lightbox ──
-    (function() {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightboxImg');
-      const lightboxCaption = document.getElementById('lightboxCaption');
-      const lightboxClose = document.getElementById('lightboxClose');
-
-      document.querySelectorAll('.gallery-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const img = item.querySelector('img');
-          const caption = item.getAttribute('data-caption') || item.querySelector('.gallery-label')?.textContent;
-          lightboxImg.src = img.src;
-          lightboxImg.alt = img.alt;
-          lightboxCaption.textContent = caption || '';
-          lightbox.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        });
-      });
-
-      function closeLightbox() {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      lightboxClose.addEventListener('click', closeLightbox);
-      lightbox.addEventListener('click', e => {
-        if (e.target === lightbox) closeLightbox();
-      });
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeLightbox();
-      });
-    })();
-
-    // ── Smooth scroll for nav links ──
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
         }
+      }
+    }
+    particles.forEach(p => {
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(0,180,255,' + p.o + ')'; ctx.fill();
+      if (mouse.x !== null) {
+        const dx = p.x - mouse.x, dy = p.y - mouse.y;
+        const d = Math.sqrt(dx*dx+dy*dy);
+        if (d < 150) { const f = (150-d)/150; p.vx += dx/d*f*0.02; p.vy += dy/d*f*0.02; }
+      }
+      p.x += p.vx; p.y += p.vy; p.vx *= 0.99; p.vy *= 0.99;
+      if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  canvas.addEventListener('mousemove', e => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX-r.left; mouse.y = e.clientY-r.top; });
+  canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+  window.addEventListener('resize', () => { resize(); create(); });
+  resize(); create(); draw();
+})();
+
+// ── Scroll reveal ──
+(function() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+// ── Nav scroll ──
+(function() {
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50 ? 'rgba(6,8,13,0.92)' : 'rgba(6,8,13,0.7)';
+  });
+})();
+
+// ── Active nav link ──
+(function() {
+  const secs = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('nav ul li a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+    links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+  });
+})();
+
+// ── Mobile nav ──
+(function() {
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => menu.classList.remove('open')));
+})();
+
+// ── Speed up hero nozzle video ──
+(function() {
+  const video = document.getElementById('heroVideo');
+  if (video) {
+    video.addEventListener('loadedmetadata', () => { video.playbackRate = 4; });
+    video.addEventListener('ratechange', () => {
+      video.addEventListener('seeked', function onSeeked() {
+        if (video.paused) return;
+        video.playbackRate = 4;
       });
     });
-
-    // ── Parallax on hero orbs ──
-    (function() {
-      const orbs = document.querySelectorAll('.hero-bg-orb');
-      window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        orbs.forEach((orb, i) => {
-          const speed = (i + 1) * 0.15;
-          orb.style.transform = `translateY(${scrollY * speed}px)`;
-        });
-      });
-    })();
-
-    // ── Counter animation for stats ──
-    (function() {
-      const statNumbers = document.querySelectorAll('.stat-number');
-      const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !entry.target.dataset.animated) {
-            entry.target.dataset.animated = 'true';
-            const text = entry.target.textContent;
-            const num = parseFloat(text);
-            if (!isNaN(num)) {
-              const isDecimal = text.includes('.');
-              const duration = 1500;
-              const start = performance.now();
-              function animate(now) {
-                const elapsed = now - start;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const current = num * eased;
-                entry.target.textContent = isDecimal ? current.toFixed(2) : Math.round(current);
-                if (progress < 1) requestAnimationFrame(animate);
-                else entry.target.textContent = text;
-              }
-              requestAnimationFrame(animate);
-            }
-          }
-        });
-      }, { threshold: 0.5 });
-      statNumbers.forEach(el => statsObserver.observe(el));
-    })();
-  </script>
+  }
+})();
+</script>
 
 </body>
 </html>
