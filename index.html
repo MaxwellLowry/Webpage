@@ -5,355 +5,221 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maxwell Lowry — Engineering Physics & Rocket Propulsion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ═══════════════════════════════════════════════════════════
-       CUSTOM PROPERTIES & RESET
-       ═══════════════════════════════════════════════════════════ */
     :root {
-      --bg: #06080d;
-      --bg-card: rgba(14, 20, 30, 0.7);
-      --bg-glass: rgba(255, 255, 255, 0.03);
-      --border: rgba(255, 255, 255, 0.06);
-      --border-glow: rgba(0, 180, 255, 0.15);
-      --text: #e8edf5;
-      --text-dim: #8892a4;
-      --text-muted: #4a5568;
-      --accent: #00b4ff;
-      --accent2: #8b5cf6;
-      --grad: linear-gradient(135deg, #00b4ff 0%, #8b5cf6 50%, #ff6b9d 100%);
-      --r: 16px;
+      --paper: #f3f0e8;
+      --paper-2: #ebe6da;
+      --ink: #17150f;
+      --ink-2: #4a463d;
+      --muted: #7a7466;
+      --rule: #d6cfbf;
+      --accent: #b8430f;
+      --figure-bg: #e4dfd2;
+      --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+      --sans: 'IBM Plex Sans', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, monospace;
+      --measure: 66ch;
     }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #131210;
+        --paper-2: #1b1a17;
+        --ink: #ece7dc;
+        --ink-2: #bdb6a7;
+        --muted: #8a8476;
+        --rule: #312e28;
+        --accent: #e0703a;
+        --figure-bg: #1d1c19;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #131210; --paper-2: #1b1a17; --ink: #ece7dc; --ink-2: #bdb6a7;
+      --muted: #8a8476; --rule: #312e28; --accent: #e0703a; --figure-bg: #1d1c19;
+    }
+
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 64px; }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
+      font-family: var(--sans);
+      font-size: 17px;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      counter-reset: section proj;
     }
-    ::selection { background: rgba(0,180,255,0.3); color: #fff; }
-    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
-    a:hover { color: #00e5c7; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: rgba(0,180,255,0.3); border-radius: 3px; }
+    ::selection { background: var(--accent); color: var(--paper); }
+    a { color: inherit; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: text-decoration-color .2s, color .2s; }
+    a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+    img, video { display: block; max-width: 100%; }
 
-    /* ═══════════════════════════════════════════════════════════
-       NAV
-       ═══════════════════════════════════════════════════════════ */
+    /* ── Nav ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      height: 56px; padding: 0 2.5rem;
-      background: rgba(6,8,13,0.7);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s;
+      height: 56px; padding: 0 clamp(16px, 4vw, 48px);
+      background: color-mix(in srgb, var(--paper) 92%, transparent);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--rule);
     }
-    nav .logo {
-      font-weight: 700; font-size: 1.05rem;
-      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    nav ul { list-style: none; display: flex; gap: 0.25rem; }
+    nav .logo { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; letter-spacing: -0.01em; }
+    nav .logo a { text-decoration: none; }
+    nav ul { list-style: none; display: flex; gap: 1.75rem; }
     nav ul li a {
-      color: var(--text-dim); font-size: 0.82rem; font-weight: 500;
-      padding: 0.45rem 0.9rem; border-radius: 8px; transition: all 0.2s;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ink-2); text-decoration: none;
     }
-    nav ul li a:hover, nav ul li a.active {
-      color: var(--text); background: rgba(255,255,255,0.05);
-    }
+    nav ul li a:hover, nav ul li a.active { color: var(--accent); }
     .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.4rem; }
-    .nav-toggle span { display: block; width: 20px; height: 2px; background: var(--text); margin: 4px 0; border-radius: 1px; }
+    .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--ink); margin: 5px 0; }
 
-    /* ═══════════════════════════════════════════════════════════
-       LAYOUT
-       ═══════════════════════════════════════════════════════════ */
-    .container { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; }
-    section { padding: 4rem 0; }
-    .reveal {
-      opacity: 0; transform: translateY(30px);
-      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    /* ── Layout ── */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); }
+    section { padding: 5.5rem 0 4rem; border-top: 1px solid var(--rule); counter-increment: section; }
+    .reveal { opacity: 1; }
 
-    /* ═══════════════════════════════════════════════════════════
-       HERO
-       ═══════════════════════════════════════════════════════════ */
-    .hero {
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; text-align: center;
-      padding: 6rem 4rem 4rem; position: relative; overflow: hidden;
+    h2 {
+      font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4vw, 2.75rem);
+      letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 2.75rem;
+      display: flex; align-items: baseline; gap: 1rem;
     }
-    #particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-    .hero-video-bg {
-      position: absolute; inset: 0; z-index: 0; overflow: hidden;
+    h2::before {
+      content: "§" counter(section);
+      font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.05em; color: var(--accent);
+      transform: translateY(-0.6em);
     }
-    .hero-video-bg video {
-      width: 100%; height: 100%; object-fit: cover;
+    h2 .accent { font-style: italic; }
+    .line { display: none; }
+
+    /* ── Hero ── */
+    .hero { padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(3rem, 6vw, 5rem); }
+    .hero-grid {
+      display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4.5rem); align-items: end;
     }
-    .hero-video-bg::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(6,8,13,0.55) 0%, rgba(6,8,13,0.35) 35%, rgba(6,8,13,0.75) 100%);
-    }
-    .hero > * { position: relative; z-index: 1; }
-    .hero-content {
-      display: flex; align-items: center; justify-content: center;
-      gap: 3rem; flex-wrap: wrap; max-width: 1200px;
-    }
-    .hero-text { text-align: left; }
-    .hero-photo {
-      flex-shrink: 0; width: 180px; height: 180px;
-      border-radius: 50%; overflow: hidden;
-      border: 3px solid rgba(0,180,255,0.3);
-      box-shadow: 0 0 40px rgba(0,180,255,0.15);
-    }
-    .hero-photo img {
-      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    .eyebrow {
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.5rem;
     }
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.2rem); font-weight: 900;
-      letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1rem;
+      font-family: var(--serif); font-weight: 400;
+      font-size: clamp(3.4rem, 9vw, 6.5rem); line-height: 0.95; letter-spacing: -0.035em;
+      margin-bottom: 1.75rem;
     }
-    .hero h1 .grad {
-      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .hero .sub { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--text-dim); margin-bottom: 0.5rem; }
-    .hero .contact { font-size: 0.85rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 2rem; }
-    .hero-links { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-start; }
-    .hero-links a {
-      padding: 0.6rem 1.4rem; border-radius: 100px; font-size: 0.85rem; font-weight: 500;
-      transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.4rem;
-    }
-    .hero-links a.primary { background: var(--accent); color: #000; border: 1px solid var(--accent); }
-    .hero-links a.primary:hover { background: transparent; color: var(--accent); }
-    .hero-links a.secondary {
-      background: var(--bg-glass); color: var(--text); border: 1px solid var(--border);
-    }
-    .hero-links a.secondary:hover { border-color: var(--accent); background: rgba(0,180,255,0.08); }
-    .badge {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      padding: 0.35rem 1rem; background: var(--bg-glass); border: 1px solid var(--border);
-      border-radius: 100px; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 2rem;
-    }
-    .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #00e5c7; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero .lede { font-family: var(--serif); font-size: clamp(1.2rem, 2vw, 1.45rem); line-height: 1.45; color: var(--ink-2); max-width: 34ch; margin-bottom: 2rem; }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; font-family: var(--mono); font-size: 0.85rem; margin-bottom: 1.25rem; }
+    .hero-links a { text-decoration-color: var(--accent); }
+    .hero .contact { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+    .hero-figure video { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #0c0c0c; }
+    .hero-figure figcaption { font-size: 0.8rem; color: var(--muted); margin-top: 0.6rem; }
+    .hero-figure figcaption b { font-family: var(--mono); font-weight: 500; font-size: 0.72rem; color: var(--ink-2); margin-right: 0.4rem; }
 
-    /* ═══════════════════════════════════════════════════════════
-       HEADERS
-       ═══════════════════════════════════════════════════════════ */
-    h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 0.5rem; }
-    h2 .accent { color: var(--accent); }
-    .line { width: 50px; height: 3px; background: var(--grad); border-radius: 2px; margin-bottom: 2.5rem; }
-    .desc { color: var(--text-dim); font-size: 1rem; max-width: 900px; margin-bottom: 2.5rem; }
+    /* ── About ── */
+    .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+    .about-text p { font-family: var(--serif); font-size: 1.3rem; line-height: 1.55; max-width: var(--measure); margin-bottom: 2.25rem; }
+    .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+    .facts > div { padding: 1rem 1.25rem 0 0; }
+    .facts dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .facts dd { font-size: 0.95rem; color: var(--ink-2); line-height: 1.55; }
+    .facts dd strong { color: var(--ink); font-weight: 600; }
+    .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; filter: saturate(0.9); }
+    .portrait figcaption { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 0.5rem; }
 
-    /* ═══════════════════════════════════════════════════════════
-       CARDS
-       ═══════════════════════════════════════════════════════════ */
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.5rem; backdrop-filter: blur(10px);
-      transition: all 0.3s; position: relative; overflow: hidden;
-    }
-    .card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--grad); opacity: 0; transition: opacity 0.3s;
-    }
-    .card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
-    .card:hover::before { opacity: 1; }
-    .card h3 { font-size: 0.92rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
-    .card p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
-    .card .hl { color: var(--text); font-weight: 600; }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
-    .stat {
-      text-align: center; padding: 1.25rem; background: var(--bg-glass);
-      border: 1px solid var(--border); border-radius: 12px;
-    }
-    .stat .num {
-      font-size: 1.8rem; font-weight: 800;
-      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .stat .lbl { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    /* ── Experience ── */
+    .timeline { border-top: 1px solid var(--ink); }
+    .tl-item { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 0 2rem; padding: 1.75rem 0; border-bottom: 1px solid var(--rule); }
+    .tl-dot { display: none; }
+    .tl-card { display: contents; }
+    .tl-header { display: contents; }
+    .tl-date { grid-column: 1; grid-row: 1 / span 3; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); padding-top: 0.35rem; }
+    .tl-header h3 { grid-column: 2; font-family: var(--serif); font-weight: 500; font-size: 1.45rem; line-height: 1.25; letter-spacing: -0.01em; }
+    .tl-company { grid-column: 2; font-size: 0.92rem; color: var(--accent); margin: 0.2rem 0 0.75rem; }
+    .tl-card ul { grid-column: 2; padding-left: 1.1rem; max-width: var(--measure); }
+    .tl-card ul li { margin-bottom: 0.35rem; color: var(--ink-2); font-size: 0.98rem; }
+    .tl-card ul li::marker { content: "–  "; color: var(--muted); }
 
-    /* ═══════════════════════════════════════════════════════════
-       EXPERIENCE TIMELINE
-       ═══════════════════════════════════════════════════════════ */
-    .timeline { position: relative; padding-left: 2rem; }
-    .timeline::before {
-      content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px;
-      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-    }
-    .tl-item { position: relative; margin-bottom: 2rem; }
-    .tl-dot {
-      position: absolute; left: -2.5rem; top: 0.35rem;
-      width: 14px; height: 14px; border-radius: 50%;
-      background: var(--bg); border: 2px solid var(--accent); z-index: 1;
-    }
-    .tl-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.25rem;
-    }
-    .tl-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.35rem; }
-    .tl-header h3 { font-size: 1.05rem; font-weight: 700; }
-    .tl-date {
-      font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;
-      background: rgba(255,255,255,0.03); padding: 0.2rem 0.65rem; border-radius: 100px; border: 1px solid var(--border);
-    }
-    .tl-company { font-size: 0.9rem; color: var(--accent); margin-bottom: 0.75rem; }
-    .tl-card ul { padding-left: 1.1rem; }
-    .tl-card ul li { margin-bottom: 0.3rem; font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
-    .tl-card ul li::marker { color: var(--accent); }
-
-    /* ═══════════════════════════════════════════════════════════
-       PROJECTS
-       ═══════════════════════════════════════════════════════════ */
+    /* ── Projects ── */
     .project-section {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 2rem; margin-bottom: 1.5rem;
-      backdrop-filter: blur(10px); transition: all 0.3s;
+      counter-increment: proj; counter-reset: fig;
+      padding: 3rem 0 3.5rem; border-top: 1px solid var(--ink);
     }
-    .project-section:hover { border-color: var(--border-glow); }
+    .project-section:first-of-type { border-top: 1px solid var(--ink); }
     .project-section h3 {
-      font-size: 1.3rem; font-weight: 700; margin-bottom: 0.25rem;
-      display: flex; align-items: center; gap: 0.6rem;
+      font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.5rem;
     }
-    .proj-link {
-      font-size: 0.8rem; color: var(--accent); font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.3rem;
+    .project-section h3::before {
+      content: counter(proj, decimal-leading-zero);
+      display: block; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.6rem;
     }
-    .proj-link:hover { gap: 0.5rem; }
-    .proj-desc { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 1.5rem; }
-    .proj-desc.muted { color: var(--text-muted); font-style: italic; margin-top: 1rem; }
-    .tl-card ul, .project-section ul { padding-left: 1.1rem; margin-bottom: 1.5rem; }
-    .tl-card ul li, .project-section ul li { font-size: 0.88rem; color: var(--text-dim); margin-bottom: 0.3rem; }
-    .tl-card ul li::marker, .project-section ul li::marker { color: var(--accent); }
-    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
-    .tag {
-      font-size: 0.7rem; padding: 0.25rem 0.6rem;
-      background: rgba(0,180,255,0.08); border: 1px solid rgba(0,180,255,0.15);
-      border-radius: 100px; color: var(--accent); font-weight: 500;
+    .proj-link { display: inline-block; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .proj-desc { font-size: 1.02rem; color: var(--ink-2); max-width: var(--measure); margin-bottom: 1rem; }
+    .proj-desc.muted { font-style: italic; color: var(--muted); }
+    .project-section ul { padding-left: 1.1rem; margin-bottom: 1.5rem; max-width: var(--measure); }
+    .project-section ul li { color: var(--ink-2); margin-bottom: 0.3rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0 0.5rem; font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .tag + .tag::before { content: "/"; margin-right: 0.5rem; color: var(--rule); }
+
+    /* ── Figures ── */
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem 1.5rem; align-items: start; }
+    .media-grid.two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .media-grid.three-col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .media-grid.full-width { grid-template-columns: 1fr; }
+    .media-item { counter-increment: fig; margin: 0; }
+    .media-item img, .media-item video { width: 100%; background: var(--figure-bg); object-fit: contain; }
+    .media-grid.full-width .media-item img, .media-grid.full-width .media-item video { max-height: 620px; }
+    .media-item .img-caption { font-size: 0.85rem; color: var(--ink-2); line-height: 1.45; margin-top: 0.65rem; max-width: 60ch; }
+    .media-item .img-caption::before {
+      content: "Fig. " counter(proj) "." counter(fig);
+      font-family: var(--mono); font-size: 0.72rem; color: var(--accent); margin-right: 0.6rem;
     }
 
-    /* ── Media grid — clean, no cropping ── */
-    .media-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.25rem;
-    }
-    .media-grid.two-col {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .media-grid.three-col {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .media-grid.full-width {
-      grid-template-columns: 1fr;
-      max-width: 900px;
-    }
-    .media-grid.full-width .media-item img,
-    .media-grid.full-width .media-item video {
-      max-height: 500px;
-      object-fit: contain !important;
-    }
+    /* ── Skills ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+    .skill-card { padding: 1.25rem 1.5rem 1rem 0; }
+    .skill-card + .skill-card { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+    .skill-card h4 { font-family: var(--mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .skill-tags { display: flex; flex-direction: column; }
+    .skill-tag { font-size: 1rem; color: var(--ink); line-height: 1.75; }
 
-    /* ── Media item — clean, no hover, no click ── */
-    .media-item {
-      background: var(--bg-glass); border: 1px solid var(--border);
-      border-radius: 12px; overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .media-item:hover {
-      border-color: rgba(0,180,255,0.2);
-    }
-    .media-item img,
-    .media-item video {
-      width: 100%; display: block; object-fit: contain;
-      background: var(--bg);
-    }
+    /* ── Publications ── */
+    .pub-card { border-top: 1px solid var(--ink); padding-top: 1.25rem; max-width: 820px; }
+    .pub-card .title { font-family: var(--serif); font-size: 1.5rem; line-height: 1.3; margin-bottom: 0.6rem; }
+    .pub-card .meta { color: var(--ink-2); font-size: 0.95rem; }
+    .pub-card .meta a { font-family: var(--mono); font-size: 0.82rem; }
 
-    /* ── Caption ── */
-    .media-item .img-caption {
-      padding: 0.55rem 0.75rem;
-      font-size: 0.76rem;
-      color: var(--text-dim);
-      border-top: 1px solid var(--border);
-      line-height: 1.4;
-    }
+    /* ── Footer ── */
+    footer { border-top: 1px solid var(--rule); padding: 2.5rem clamp(16px, 4vw, 48px); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+    footer .links { display: flex; gap: 1.5rem; }
 
-    /* ═══════════════════════════════════════════════════════════
-       SKILLS
-       ═══════════════════════════════════════════════════════════ */
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; }
-    .skill-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.5rem; transition: all 0.3s;
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid { grid-template-columns: 1fr; }
+      .portrait { max-width: 220px; }
+      .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .skill-card:nth-child(3) { padding-left: 0; border-left: 0; }
+      .skill-card:nth-child(n+3) { border-top: 1px solid var(--rule); }
     }
-    .skill-card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
-    .skill-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .skill-tag {
-      font-size: 0.75rem; padding: 0.25rem 0.6rem;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 100px; color: var(--text-dim);
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       PUBLICATIONS
-       ═══════════════════════════════════════════════════════════ */
-    .pub-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.5rem; position: relative; overflow: hidden;
-    }
-    .pub-card::before {
-      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--grad);
-    }
-    .pub-card .title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .pub-card .meta { font-size: 0.88rem; color: var(--text-dim); line-height: 1.7; }
-    .pub-card .meta a { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
-
-    /* ═══════════════════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════════════════ */
-    footer {
-      text-align: center; padding: 2rem 1.5rem;
-      border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted);
-    }
-    footer .links { display: flex; justify-content: center; gap: 1.25rem; margin-bottom: 0.75rem; }
-    footer .links a { color: var(--text-dim); }
-    footer .links a:hover { color: var(--accent); }
-
-    /* ── About grid (desktop) ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       RESPONSIVE
-       ═══════════════════════════════════════════════════════════ */
-    @media (max-width: 768px) {
-      nav { padding: 0 1rem; }
+    @media (max-width: 700px) {
+      body { font-size: 16px; }
       nav ul { display: none; }
       .nav-toggle { display: block; }
       nav ul.open {
-        display: flex; flex-direction: column;
+        display: flex; flex-direction: column; gap: 1rem;
         position: absolute; top: 56px; left: 0; right: 0;
-        background: rgba(6,8,13,0.97); padding: 0.75rem; border-bottom: 1px solid var(--border);
+        background: var(--paper); padding: 1.25rem 16px; border-bottom: 1px solid var(--rule);
       }
-      section { padding: 3.5rem 0; }
-      .container { padding: 0 1.25rem; }
-      .about-grid { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(3, 1fr); }
-      .project-section { padding: 1.5rem; }
-      .media-grid { grid-template-columns: 1fr; }
-      .media-grid.two-col { grid-template-columns: 1fr; }
-      .media-grid.three-col { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      .stats { grid-template-columns: 1fr; }
-      .hero-links { flex-direction: column; align-items: center; }
+      section { padding: 4rem 0 3rem; }
+      .facts { grid-template-columns: 1fr; }
+      .tl-item { grid-template-columns: 1fr; gap: 0.25rem; }
+      .tl-date, .tl-header h3, .tl-company, .tl-card ul { grid-column: 1; grid-row: auto; }
+      .media-grid, .media-grid.two-col, .media-grid.three-col { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .skill-card, .skill-card + .skill-card { padding-left: 0; border-left: 0; }
+      .skill-card + .skill-card { border-top: 1px solid var(--rule); }
     }
   </style>
 </head>
@@ -363,12 +229,12 @@
      NAV
      ═══════════════════════════════════════════════════════════ -->
 <nav>
-  <div class="logo">ML</div>
+  <div class="logo"><a href="#top">Maxwell Lowry</a></div>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   <ul id="navMenu">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="#projects">Work</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#publications">Publications</a></li>
   </ul>
@@ -377,63 +243,55 @@
 <!-- ═══════════════════════════════════════════════════════════
      HERO
      ═══════════════════════════════════════════════════════════ -->
-<div class="hero">
-  <div class="hero-video-bg">
-    <video autoplay muted loop playsinline preload="auto" id="heroVideo">
-      <source src="resources for webpage/Media/Oxygen Rich Staged Combustion/Transient De Laval Nozzel Sim.mp4" type="video/mp4">
-    </video>
-  </div>
-  <canvas id="particles"></canvas>
-  <div class="hero-content">
+<header class="hero" id="top">
+  <div class="container hero-grid">
     <div class="hero-text">
-      <div class="badge"><span class="dot"></span> Open to opportunities</div>
-      <h1>Maxwell<br><span class="grad">Lowry</span></h1>
-      <p class="sub">Engineering Physics · Computational Mechanics · Systems Engineering</p>
-      <p class="contact">Lowry.283@osu.edu · (513) 319-4274 · Goshen, OH · US Citizen</p>
+      <p class="eyebrow">Engineering Physics &middot; The Ohio State University</p>
+      <h1>Maxwell<br><em>Lowry</em></h1>
+      <p class="lede">I design, simulate and build rocket engine hardware, from injectors and preburners to the models that tell me whether they will work.</p>
       <div class="hero-links">
-        <a href="mailto:Lowry.283@osu.edu" class="primary">Email</a>
-        <a href="https://linkedin.com/in/maxwell-lowry-78824342" target="_blank" rel="noopener" class="secondary">LinkedIn</a>
-        <a href="https://github.com/MaxwellLowry" target="_blank" rel="noopener" class="secondary">GitHub</a>
+        <a href="mailto:Lowry.283@osu.edu">Email</a>
+        <a href="https://linkedin.com/in/maxwell-lowry-78824342" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/MaxwellLowry" target="_blank" rel="noopener">GitHub</a>
       </div>
+      <p class="contact">Lowry.283@osu.edu &middot; (513) 319-4274 &middot; Goshen, OH &middot; US Citizen</p>
     </div>
-    <div class="hero-photo">
-      <img src="resources for webpage/Media/PicturesOfMe/ProfesionalImage.jpg" alt="Maxwell Lowry">
-    </div>
+    <figure class="hero-figure">
+      <video autoplay muted loop playsinline preload="auto" id="heroVideo">
+        <source src="resources for webpage/Media/Oxygen Rich Staged Combustion/Transient De Laval Nozzel Sim.mp4" type="video/mp4">
+      </video>
+      <figcaption><b>Fig. 0</b>Transient CFD of a de Laval nozzle starting up.</figcaption>
+    </figure>
   </div>
-</div>
-
+</header>
 <!-- ═══════════════════════════════════════════════════════════
      ABOUT
      ═══════════════════════════════════════════════════════════ -->
 <section id="about">
   <div class="container">
-    <div class="reveal">
-      <h2>About <span class="accent">Me</span></h2>
-      <div class="line"></div>
-    </div>
-    <p class="desc reveal">
-      I'm a junior Engineering Physics student at The Ohio State University (expected graduation May 2028),
-      US citizen, focused on computational mechanics, systems engineering, and hands-on hardware development.
-      I'm passionate about turning complex physics problems into working solutions.
-    </p>
+    <h2>About</h2>
     <div class="about-grid">
-      <div class="card reveal">
-        <h3>Education</h3>
-        <p><span class="hl">B.S. Engineering Physics</span><br>The Ohio State University<br>Aug 2024 – May 2028 (Expected)<br>GPA: <span class="hl">3.83</span> · Dean's List<br>Citizenship: <span class="hl">US</span></p>
+      <div class="about-text">
+        <p>I'm a junior in Engineering Physics at Ohio State, graduating May 2028. Most of my time goes to liquid rocket propulsion: leading combustion devices for the university's rocket team, running finite element models in research labs, and getting my hands dirty on test stands. I like problems where the physics is hard and the answer has to survive contact with real hardware.</p>
+        <dl class="facts">
+          <div>
+            <dt>Education</dt>
+            <dd><strong>B.S. Engineering Physics</strong><br>The Ohio State University<br>2024 &ndash; 2028 &middot; GPA 3.83 &middot; Dean's List</dd>
+          </div>
+          <div>
+            <dt>Focus</dt>
+            <dd>Combustion devices, CFD and FEA, CAD and additive manufacturing, controls, thermal analysis</dd>
+          </div>
+          <div>
+            <dt>Outside of work</dt>
+            <dd>Rock climbing, backpacking, guitar, lifting</dd>
+          </div>
+        </dl>
       </div>
-      <div class="card reveal">
-        <h3>Focus Areas</h3>
-        <p>Engineering Systems · CFD & Computational Mechanics · CAD & Additive Manufacturing · Embedded Systems & Controls · Thermal Analysis</p>
-      </div>
-      <div class="card reveal">
-        <h3>Beyond Engineering</h3>
-        <p>Rock Climbing, Backpacking, Guitar, Weightlifting</p>
-      </div>
-    </div>
-    <div class="stats">
-      <div class="stat reveal"><div class="num">3.83</div><div class="lbl">GPA</div></div>
-      <div class="stat reveal"><div class="num">2+</div><div class="lbl">Years R&D</div></div>
-      <div class="stat reveal"><div class="num">1</div><div class="lbl">AIAA Pub</div></div>
+      <figure class="portrait">
+        <img src="resources for webpage/Media/PicturesOfMe/ProfesionalImage.jpg" alt="Portrait of Maxwell Lowry">
+        <figcaption>Columbus, Ohio</figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -445,7 +303,6 @@
   <div class="container">
     <div class="reveal">
       <h2>Experience</h2>
-      <div class="line"></div>
     </div>
     <div class="timeline">
       <div class="tl-item reveal">
@@ -503,8 +360,7 @@
 <section id="projects">
   <div class="container">
     <div class="reveal">
-      <h2>Featured <span class="accent">Projects</span></h2>
-      <div class="line"></div>
+      <h2>Selected work</h2>
     </div>
 
     <!-- ═════════════════════════════════════════════════════════
@@ -684,16 +540,39 @@
     <div class="project-section reveal">
       <h3>Methalox Gas Generator</h3>
       <p class="proj-desc">
-        Leading a small team developing the first university-level methalox gas generator.
-        Personally designed external uniform mixing coaxial swirl injectors and injector plate manifold.
+        Task and technical lead for a small team building the club's first methalox gas generator, which
+        drives the turbine of a pump-fed engine. Fuel and oxidizer are tapped downstream of the pumps and
+        burned very fuel-rich (O/F around 0.25) to keep turbine inlet temperatures in check. Trade studies
+        picked a single pentad impinging element for manufacturability and mixing, a stainless chamber with
+        heavy methane film cooling, and a decoupled gas-gas torch firing through the injector face to give
+        the fuel-rich mixture a hot core to light from. Every part is designed to be made on a mill, lathe or CNC.
       </p>
       <div class="tags">
-        <span class="tag">Methalox</span>
+        <span class="tag">LOX / Methane</span>
         <span class="tag">Gas Generator</span>
         <span class="tag">Injector Design</span>
+        <span class="tag">Trade Studies</span>
         <span class="tag">Team Lead</span>
       </div>
-      <p class="proj-desc muted">No media available yet — this project is in active development.</p>
+
+      <div class="media-grid two-col" style="margin-top:2rem;">
+        <div class="media-item" data-caption="Gas generator assembly section">
+          <img src="resources for webpage/Media/Methalox Gas Generator/Gas Generator Assembly Section.png" alt="Section view of the gas generator assembly" loading="lazy">
+          <div class="img-caption">Assembly section: injector head, film-cooled chamber and flanged outlet to the turbine nozzle volute.</div>
+        </div>
+        <div class="media-item" data-caption="Injector cross-section">
+          <img src="resources for webpage/Media/Methalox Gas Generator/Injector Cross Section.png" alt="Cross-section of the pentad impinging injector" loading="lazy">
+          <div class="img-caption">Injector cross-section with the LOX and methane volutes, torch port and pentad impinging element.</div>
+        </div>
+        <div class="media-item" data-caption="Injector manifold plate">
+          <img src="resources for webpage/Media/Methalox Gas Generator/Injector Manifold Plate.png" alt="Injector manifold plate with volute channel" loading="lazy">
+          <div class="img-caption">Manifold plate with the propellant volute feeding the injector.</div>
+        </div>
+        <div class="media-item" data-caption="Injector face">
+          <img src="resources for webpage/Media/Methalox Gas Generator/Injector Face.png" alt="Hot-side face of the injector" loading="lazy">
+          <div class="img-caption">Hot-side injector face: central element and the ring of film-cooling orifices.</div>
+        </div>
+      </div>
     </div>
 
     <!-- ═════════════════════════════════════════════════════════
@@ -846,8 +725,7 @@
 <section id="skills">
   <div class="container">
     <div class="reveal">
-      <h2>Technical <span class="accent">Skills</span></h2>
-      <div class="line"></div>
+      <h2>Tools</h2>
     </div>
     <div class="skills-grid">
       <div class="skill-card reveal">
@@ -904,7 +782,6 @@
   <div class="container">
     <div class="reveal">
       <h2>Publications</h2>
-      <div class="line"></div>
     </div>
     <div class="pub-card reveal">
       <p class="title">Design and Numerical Analysis of an Oxygen-Rich Gas Turbine</p>
@@ -921,98 +798,25 @@
      FOOTER
      ═══════════════════════════════════════════════════════════ -->
 <footer>
+  <p>&copy; 2026 Maxwell Lowry</p>
   <div class="links">
     <a href="mailto:Lowry.283@osu.edu">Email</a>
     <a href="https://linkedin.com/in/maxwell-lowry-78824342" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/MaxwellLowry" target="_blank" rel="noopener">GitHub</a>
   </div>
-  <p>© 2026 Maxwell Lowry</p>
 </footer>
 
 <!-- ═══════════════════════════════════════════════════════════
      JAVASCRIPT
      ═══════════════════════════════════════════════════════════ -->
 <script>
-// ── Particles ──
-(function() {
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let particles = [], mouse = { x: null, y: null };
-  const COUNT = 60, MAX_DIST = 120;
-
-  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
-  function create() {
-    particles = [];
-    for (let i = 0; i < COUNT; i++) {
-      particles.push({
-        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 1.5 + 0.5, o: Math.random() * 0.5 + 0.2
-      });
-    }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if (d < MAX_DIST) {
-          ctx.strokeStyle = 'rgba(0,180,255,' + ((1-d/MAX_DIST)*0.12) + ')';
-          ctx.lineWidth = 0.5;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-    particles.forEach(p => {
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(0,180,255,' + p.o + ')'; ctx.fill();
-      if (mouse.x !== null) {
-        const dx = p.x - mouse.x, dy = p.y - mouse.y;
-        const d = Math.sqrt(dx*dx+dy*dy);
-        if (d < 150) { const f = (150-d)/150; p.vx += dx/d*f*0.02; p.vy += dy/d*f*0.02; }
-      }
-      p.x += p.vx; p.y += p.vy; p.vx *= 0.99; p.vy *= 0.99;
-      if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
-      if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
-    });
-    requestAnimationFrame(draw);
-  }
-
-  canvas.addEventListener('mousemove', e => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX-r.left; mouse.y = e.clientY-r.top; });
-  canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-  window.addEventListener('resize', () => { resize(); create(); });
-  resize(); create(); draw();
-})();
-
-// ── Scroll reveal ──
-(function() {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-})();
-
-// ── Nav scroll ──
-(function() {
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 50 ? 'rgba(6,8,13,0.92)' : 'rgba(6,8,13,0.7)';
-  });
-})();
-
 // ── Active nav link ──
 (function() {
   const secs = document.querySelectorAll('section[id]');
   const links = document.querySelectorAll('nav ul li a');
   window.addEventListener('scroll', () => {
     let cur = '';
-    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
     links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
   });
 })();
