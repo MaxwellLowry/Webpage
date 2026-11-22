@@ -737,6 +737,75 @@
     </div>
 
     <!-- ═════════════════════════════════════════════════════════
+         PROJECT: ROLL FORGING SIMULATION
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>Roll Forging Simulation</h3>
+      <p class="proj-desc">
+        Built and refined an Abaqus/Explicit model of a multi-pass roll forging process, including a
+        toolpath adapter that brings billets, dies and material properties into Abaqus. Refined the mesh
+        to run later roll passes at higher fidelity, then ran parameter sweeps on the friction coefficient
+        to optimize billet elongation.
+      </p>
+      <div class="tags">
+        <span class="tag">Abaqus/Explicit</span>
+        <span class="tag">FEA</span>
+        <span class="tag">Forging</span>
+        <span class="tag">Python</span>
+        <span class="tag">Research</span>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.5rem;">
+        <div class="media-item" data-caption="Roll forging simulation: the dies pass over the billet and progressively reduce its cross-section">
+          <img src="resources for webpage/Media/Forging Simulation/Roll Forging Sim.gif" alt="Animated roll forging simulation" loading="lazy">
+          <div class="img-caption">Roll Forging — Animated Pass</div>
+        </div>
+        <div class="media-item" data-caption="Von Mises stress in the billet after the final die hit of a 32-step roll forging sequence">
+          <img src="resources for webpage/Media/Forging Simulation/Roll Forging Von Mises Stress.png" alt="Von Mises stress in a roll-forged billet" loading="lazy">
+          <div class="img-caption">Von Mises Stress — Final Die Retract</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════
+         PROJECT: DIFFGENCAD
+         ═════════════════════════════════════════════════════════ -->
+    <div class="project-section reveal">
+      <h3>DiffGenCAD</h3>
+      <p class="proj-desc">
+        A research project on generative, parametric CAD. Expanded the geometry library from basic
+        primitives to lattices, gyroids, swept and twisted solids, and smooth blends, then proved it out
+        with an interactive turbopump model driven by live sliders. Now pairing it with topology
+        optimization in JAX-FEM.
+      </p>
+      <div class="tags">
+        <span class="tag">Computational Design</span>
+        <span class="tag">Parametric CAD</span>
+        <span class="tag">Topology Optimization</span>
+        <span class="tag">JAX-FEM</span>
+        <span class="tag">Python</span>
+      </div>
+
+      <div class="media-grid full-width" style="margin-top:1.5rem;">
+        <div class="media-item" data-caption="Interactive parametric turbopump: sliders drive the LOX pump, fuel pump, turbine and shaft geometry in real time">
+          <img src="resources for webpage/Media/DiffGenCAD/Parametric Turbopump Demo.png" alt="Interactive parametric turbopump demo" loading="lazy">
+          <div class="img-caption">Parametric Turbopump — Interactive Demo</div>
+        </div>
+      </div>
+
+      <div class="media-grid two-col" style="margin-top:1.25rem;">
+        <div class="media-item" data-caption="Geometry library: primitives, extrusions, sweeps, lattices, gyroids, shells and smooth blends">
+          <img src="resources for webpage/Media/DiffGenCAD/Geometry Library.png" alt="Grid of shapes from the geometry library" loading="lazy">
+          <div class="img-caption">Geometry Library — 24 Shape Operations</div>
+        </div>
+        <div class="media-item" data-caption="Topology optimization of a loaded, heated beam: structural only, thermal only, and a 50/50 combined objective">
+          <img src="resources for webpage/Media/DiffGenCAD/Topology Optimization Variations.png" alt="Topology optimization variations" loading="lazy">
+          <div class="img-caption">Multiphysics Topology Optimization</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════
          PROJECT 6: SIMULATION PRACTICE
          ═════════════════════════════════════════════════════════ -->
     <div class="project-section reveal">
