@@ -147,6 +147,9 @@
     .fig figcaption { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); margin-top: 0.75rem; padding-top: 0.6rem; border-top: 1px solid var(--rule); font-size: 0.85rem; line-height: 1.45; color: var(--ink-2); }
     .fig figcaption::before { content: "Fig." counter(fig); font-family: var(--mono); font-size: 0.7rem; color: var(--muted); padding-top: 0.1rem; }
 
+    .chapter { display: flex; align-items: baseline; gap: 0.9rem; font-size: 1.05rem; font-weight: 700; font-stretch: 110%; text-transform: uppercase; letter-spacing: 0.01em; padding-top: 1rem; border-top: 1px solid var(--ink); margin-bottom: -0.75rem; }
+    .chapter span { font-family: var(--mono); font-size: 0.72rem; font-weight: 500; color: var(--accent); }
+
     /* ── Skills ── */
     .skills-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; margin-left: 4.5rem; }
     .skill-card { border-top: 1px solid var(--rule); padding-top: 0.8rem; }
@@ -379,22 +382,29 @@
       <div class="case-text">
         <p class="case-num">03 / 08</p>
         <h3>Oxygen-Rich Preburner</h3>
-        <p class="case-summary">Produced the first undergraduate-complete preburner geometry for a staged combustion rocket engine. Designed, manufactured, simulated, tested, and iterated deep recess internal mixing coaxial swirl injectors, then brute-force simulated downstream dilution injection until results showed uniform mixing. Built for the OSU Liquid Rocket Systems undergraduate propulsion team.</p>
-        <dl class="case-meta"><div><dt>Role</dt><dd>Combustion devices lead</dd></div><div><dt>Where</dt><dd>OSU Liquid Rocket Systems</dd></div><div><dt>Tools</dt><dd>CFD, Combustion, Inconel 718, DFAM, Ansys Fluent, Additive Manufacturing</dd></div><div><dt>Code</dt><dd><a href="https://github.com/MaxwellLowry/Staged-Combustion-Project-" target="_blank" rel="noopener">github.com/MaxwellLowry/Staged-Combustion-Project-</a></dd></div></dl>
+        <p class="case-summary">The oxygen-rich preburner for our staged-combustion engine. It burns a little fuel in a lot of oxygen to make hot, oxidizer-rich gas that spins the turbine before it continues to the main injector. I took it from a blank page to the team's first complete, additively manufacturable preburner design: designing and cold-flow testing deep-recess coaxial swirl injector elements, then iterating on downstream dilution in CFD until the mixing was uniform.</p>
+        <dl class="case-meta"><div><dt>Role</dt><dd>Combustion devices lead</dd></div><div><dt>Where</dt><dd>OSU Liquid Rocket Systems</dd></div><div><dt>Tools</dt><dd>Ansys Fluent, Ansys Mechanical, SolidWorks, DFAM, Inconel 718</dd></div><div><dt>Paper</dt><dd><a href="https://doi.org/10.2514/6.2026-115081" target="_blank" rel="noopener">AIAA 2026-115081</a></dd></div><div><dt>Code</dt><dd><a href="https://github.com/MaxwellLowry/Staged-Combustion-Project-" target="_blank" rel="noopener">github.com/MaxwellLowry/Staged-Combustion-Project-</a></dd></div></dl>
       </div>
       <div class="case-media">
-        <figure class="fig lead"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Additivly Manufacturable Preburner with RD-170 Style Internal Mixing Coaxial Swirl Injectors.png" alt="Complete Engine Design Layout" loading="lazy"><figcaption>Complete Engine Layout — RD-170 Style Coaxial Injectors</figcaption></figure>
+        <figure class="fig lead"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Additivly Manufacturable Preburner with RD-170 Style Internal Mixing Coaxial Swirl Injectors.png" alt="Section view of the additively manufactured preburner" loading="lazy"><figcaption>Section through the preburner: coaxial swirl injectors at the head, dilution downstream, and an annular outlet into the turbine.</figcaption></figure>
+        <h4 class="chapter"><span>A</span>Injector element</h4>
         <div class="fig-grid">
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Anular Oxygen Rich Preburner Mixing Simulation.png" alt="Annular Preburner Mixing Simulation" loading="lazy"><figcaption>Annular Preburner — Mixing Simulation</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Oxygen Rich Preburner Thermal Simulation.png" alt="Thermal Simulation" loading="lazy"><figcaption>Thermal Simulation — Heat Distribution</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Element.png" alt="Preburner Element" loading="lazy"><figcaption>Preburner Element</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Assembly.png" alt="Preburner Assembly" loading="lazy"><figcaption>Preburner Assembly</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Into Turbine Into Main Injector.png" alt="Full System Flow Path" loading="lazy"><figcaption>Full System — Preburner to Turbine to Main Injector</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Turbine Sim.png" alt="Turbine Simulation" loading="lazy"><figcaption>Turbine — CFD Simulation</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/TurbineCFTurbo.png" alt="Turbine CFD Turbo" loading="lazy"><figcaption>Turbine Stator — CFD Turbo Design</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner assembly.jpg" alt="Preburner Assembly" loading="lazy"><figcaption>Welded Preburner Assembly — Inconel / Haynes</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Coaxial Swirl Injector Campaign/Externa Mixng Coax Swirl Injector Sim.png" alt="Coaxial Swirl Injector Simulation" loading="lazy"><figcaption>Coaxial Swirl Injector — CFD Simulation</figcaption></figure>
-          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Shaft Assembly.png" alt="Shaft Assembly" loading="lazy"><figcaption>Shaft Assembly</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Element.png" alt="Section of a deep-recess coaxial swirl element" loading="lazy"><figcaption>Deep-recess, internal-mixing coaxial swirl element.</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Coaxial Swirl Injector Campaign/Externa Mixng Coax Swirl Injector Sim.png" alt="CFD pathlines through a swirl element" loading="lazy"><figcaption>CFD pathlines through a swirl element, showing the swirl and the spray cone it forms.</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Coaxial Swirl Injector Campaign/Test Element.png" alt="Cold-flow test element" loading="lazy"><figcaption>Cold-flow test article for checking element flow rates.</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Coaxial Swirl Injector Campaign/Test Image.jpg" alt="Water cold-flow test spray" loading="lazy"><figcaption>Water cold-flow test of a swirl element.</figcaption></figure>
+        </div>
+        <h4 class="chapter"><span>B</span>Mixing and thermal analysis</h4>
+        <div class="fig-grid">
+          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Anular Oxygen Rich Preburner Mixing Simulation.png" alt="Preburner mixing CFD" loading="lazy"><figcaption>Combustion CFD of the element cluster, used to tune dilution until the outlet temperature was even.</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Oxygen Rich Preburner Thermal Simulation.png" alt="Thermal-structural analysis of the preburner wall" loading="lazy"><figcaption>Thermal-structural analysis of the chamber wall with the CFD temperatures imported.</figcaption></figure>
+        </div>
+        <h4 class="chapter"><span>C</span>Integration with the turbopump</h4>
+        <div class="fig-grid">
+          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Into Turbine Into Main Injector.png" alt="Preburner, turbine and main injector stack" loading="lazy"><figcaption>Full hot-gas path: preburner into the turbine, then on to the main injector.</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner assembly.jpg" alt="Sectioned preburner and turbine housing" loading="lazy"><figcaption>Sectioned preburner and turbine housing assembly.</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Preburner Ignitor.png" alt="Preburner igniter" loading="lazy"><figcaption>Torch igniter for the preburner.</figcaption></figure>
+          <figure class="fig"><img src="resources for webpage/Media/Oxygen Rich Staged Combustion/Turbine Sim.png" alt="Turbine CFD" loading="lazy"><figcaption>CFD of the turbine the preburner drives (published with the team at AIAA).</figcaption></figure>
         </div>
       </div>
     </article>
